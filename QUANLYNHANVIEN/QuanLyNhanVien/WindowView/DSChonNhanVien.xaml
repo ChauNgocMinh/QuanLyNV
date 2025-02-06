@@ -1,0 +1,78 @@
+﻿<Window x:Class="QuanLyNhanVien.WindowView.DSChonNhanVien"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyNhanVien"
+        mc:Ignorable="d"
+        Title="DangNhap" Height="400" Width="700"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="Transparent" 
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen">
+    <Border Background="#d9dfe7"
+            CornerRadius="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Name="loaiFormTbk" FontWeight="Bold"
+                       FontSize="20"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center">Chọn nhân viên</TextBlock>
+
+            <Grid Grid.Row="1"
+                  Margin="10,0,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <DataGrid x:Name="danhSachDtg" Grid.RowSpan="6"
+                          Margin="10,10,20,20" 
+                          ItemsSource="{Binding Path=DefaultView}" 
+                          IsReadOnly="True" SelectionChanged="danhSachDtg_SelectionChanged"></DataGrid>
+
+                <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Mã nhân viên" TextAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Họ tên" TextAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="CCCD/CMND" TextAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Phòng" TextAlignment="Left" VerticalAlignment="Center"/>
+
+                <TextBox x:Name="maNVTbx" Style="{StaticResource InputTextBox}" IsEnabled="False" Grid.Column="3" Grid.Row="0"/>
+                <TextBox x:Name="hoTenTbx" Style="{StaticResource InputTextBox}" IsEnabled="False" Grid.Column="3" Grid.Row="1"/>
+                <TextBox x:Name="cccdTbx" Style="{StaticResource InputTextBox}" IsEnabled="False" Grid.Column="3" Grid.Row="2"/>
+                <TextBox x:Name="phongTbx" Style="{StaticResource InputTextBox}" IsEnabled="False" Grid.Column="3" Grid.Row="3"/>
+                <TextBlock x:Name="tongTienTbk" Grid.Row="2" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           TextAlignment="Left" VerticalAlignment="Center"/>
+
+                <Button Grid.Row="5" Grid.Column="2"
+                        Background="Red"
+                        x:Name="btnHuy"
+                        Click="btnHuy_Click"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40">Hủy</Button>
+                <Button x:Name="xacNhanBtn" Grid.Column="2" Grid.Row="4"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40" Click="hoanThanhBtn_Click">Hoàn thành</Button>
+
+
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,98 @@
+﻿<Window x:Class="QuanLyNhanVien.WindowView.ThemThaiSan"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyNhanVien"
+        xmlns:c="clr-namespace:QuanLyNhanVien.Theme"
+        mc:Ignorable="d"
+        Title="DangNhap" Height="400" Width="600"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="Transparent" 
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen">
+    <Border Background="#d9dfe7"
+            CornerRadius="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock FontWeight="Bold"
+                       FontSize="20"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center">Thông tin thai sản</TextBlock>
+
+            <Grid Grid.Row="1"
+                  Margin="10,0,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Mã thai sản" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Mã nhân viên" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Ngày về sớm" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="3" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Ngày dự sinh" TextAlignment="Right" VerticalAlignment="Center"/>
+                
+                <TextBox x:Name="maTSTbx" Style="{StaticResource InputTextBox}" Grid.Column="1" Grid.Row="0" IsEnabled="False" Loaded="maTSTbx_Loaded" />
+                <ComboBox x:Name="maNVCbx" FontSize="17" FontWeight="Normal" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Path=DefaultView}" />
+                <DatePicker x:Name="ngayVeSomDpk" FontSize="17" FontWeight="Normal"  Grid.Column="1" Grid.Row="2" Height="30"
+                            c:DatePickerDateFormat.DateFormat="MM/dd/yyyy" Text="MM/dd/yyyy" IsEnabled="False"/>
+                <DatePicker x:Name="ngayNghiSinhDpk" FontSize="17" FontWeight="Normal"  Grid.Column="1" Grid.Row="3" Height="30" 
+                            c:DatePickerDateFormat.DateFormat="MM/dd/yyyy" Text="MM/dd/yyyy" SelectedDateChanged="ngayNghiSinhDpk_SelectedDateChanged"/>
+                
+                <TextBlock Grid.Row="0" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Ngày làm TL" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Trợ cấp cty" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Ghi chú" TextAlignment="Right" VerticalAlignment="Center"/>
+
+                <DatePicker x:Name="ngayLamTLDpk" FontSize="17" FontWeight="Normal" Grid.Column="3" Grid.Row="0"
+                            c:DatePickerDateFormat.DateFormat="MM/dd/yyyy" Text="MM/dd/yyyy" IsEnabled="False"/>
+                <TextBox x:Name="troCapTbx" Style="{StaticResource InputTextBox}" Grid.Column="3" Grid.Row="1" PreviewTextInput="troCapTbx_PreviewTextInput"/>
+                <TextBox x:Name="ghiChuTbx" Style="{StaticResource InputTextBox}" Grid.Column="3" Grid.Row="2"/>
+                
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Background="Red"
+                        x:Name="btnHuy"
+                        Click="btnHuy_Click"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40">Hủy</Button>
+                <Button Grid.Column="3"
+                        Grid.ColumnSpan="2"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40" Click="btnThem_Click">Thêm/Sửa</Button>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,97 @@
+﻿<Window x:Class="QuanLyNhanVien.WindowView.ChamCongThuViec"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyNhanVien"
+        mc:Ignorable="d"
+        Title="DangNhap" Height="400" Width="600"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="Transparent" 
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen">
+    <Border Background="#d9dfe7"
+            CornerRadius="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock FontWeight="Bold"
+                       FontSize="20"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center">Chấm công nhân viên thử việc</TextBlock>
+
+            <Grid Grid.Row="1"
+                  Margin="10,0,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Mã nhân viên" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Tháng" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Năm" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="3" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Lưởng thử việc" TextAlignment="Right" VerticalAlignment="Center"/>
+                
+                <ComboBox x:Name="maNVCbx" FontSize="17" FontWeight="Normal" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Path=DefaultView}" Height="32" Loaded="maNVCbx_Loaded"/>
+                <ComboBox x:Name="thangCbx" FontSize="17" FontWeight="Normal" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Path=DefaultView}" Height="32" PreviewTextInput="numberTextBoxes_PreviewTextInput"/>
+                <TextBox x:Name="namTbx" Style="{StaticResource InputTextBox}" Grid.Column="1" Grid.Row="2" PreviewTextInput="numberTextBoxes_PreviewTextInput"/>
+                <TextBox x:Name="luongTVTbx" Style="{StaticResource InputTextBox}" Grid.Column="1" Grid.Row="3" PreviewTextInput="numberTextBoxes_PreviewTextInput"/>
+
+
+                <TextBlock Grid.Row="0" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Số ngày công" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Số ngày nghỉ" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Số giờ thêm" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="3" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Ghi chú" TextAlignment="Right" VerticalAlignment="Center"/>
+
+
+                <TextBox x:Name="soNgayCongTbx" Style="{StaticResource InputTextBox}" Grid.Column="3" Grid.Row="0" PreviewTextInput="numberTextBoxes_PreviewTextInput"/>
+                <TextBox x:Name="soNgayNghiTbx" Style="{StaticResource InputTextBox}" Grid.Column="3" Grid.Row="1" PreviewTextInput="numberTextBoxes_PreviewTextInput"/>
+                <TextBox x:Name="soGioLamThemTbx" Style="{StaticResource InputTextBox}" Grid.Column="3" Grid.Row="2" PreviewTextInput="numberTextBoxes_PreviewTextInput"/>
+                <TextBox x:Name="ghiChuTbx" Style="{StaticResource InputTextBox}" Grid.Column="3" Grid.Row="3"/>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Background="Red"
+                        x:Name="huyBtn"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40" Click="huyBtn_Click">Hủy</Button>
+                <Button x:Name="themSuaBtn" Grid.Column="3"
+                        Grid.ColumnSpan="2"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40" Click="themSuaBtn_Click"></Button>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

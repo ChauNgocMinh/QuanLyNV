@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="QuanLyNhanVien.MVVM.View.QLChamCongView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QuanLyNhanVien.MVVM.View"
+             xmlns:viewModel="clr-namespace:QuanLyNhanVien.MVVM.ViewModel.ChamCongSubViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="Transparent">
+    <UserControl.DataContext>
+        <viewModel:MainQLChamCongViewModel/>
+    </UserControl.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="RadioButton"
+                       BasedOn="{StaticResource SettingOptionsButton}"/>
+            </StackPanel.Resources>
+
+            <RadioButton Content="Bảng công" IsChecked="True" 
+                         Command="{Binding BangChamCongCommand}"/>
+            <RadioButton Content="Bảng công thử việc" 
+                         Command="{Binding BangChamCongThuViecCommand}"/>
+            <RadioButton Content="Khen thưởng/Kỷ luật"
+                         Command="{Binding KhenThuongKyLuatCommand}"/>
+        </StackPanel>
+
+        <ContentControl Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="10"
+                        Content="{Binding CurrentView}"/>
+    </Grid>
+</UserControl>

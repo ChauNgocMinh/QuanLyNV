@@ -1,0 +1,78 @@
+﻿<UserControl x:Name="bangCongThuViec" x:Class="QuanLyNhanVien.MVVM.View.ChamCongSubView.BangChamCongThuViecView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QuanLyNhanVien.MVVM.View.ChamCongSubView"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="Transparent" KeyDown="bangCongThuViec_KeyDown">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Bảng chấm công thử việc"
+                  BorderThickness="0"
+                      FontSize="17"
+                      FontWeight="SemiBold"
+                  Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                       Text="Tháng" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                       Text="Năm" TextAlignment="Right" VerticalAlignment="Center"/>
+
+                <ComboBox x:Name="thangCbx" FontSize="17" FontWeight="Normal" Grid.Column="1" Grid.Row="0"/>
+                <ComboBox x:Name="namCbx" FontSize="17" FontWeight="Normal" Grid.Column="3" Grid.Row="0"/>
+
+                <Button x:Name="xemBtn" Grid.Column="4"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40" Click="lamMoiBtn_Click">Làm mới</Button>
+            </Grid>
+
+
+        </GroupBox>
+
+        <DataGrid x:Name="bangCongThuViecDtg" Grid.Row="1"
+                  Margin="10,10,10,20"
+                  ItemsSource="{Binding Path=DefaultView}"
+                  IsReadOnly="True"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40"
+                    x:Name="themBtn"
+                    Click="themBtn_Click">Thêm công mới</Button>
+
+            <Button x:Name="xoaBtn" Grid.Column="1"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40" Click="xoaBtn_Click">Xóa công</Button>
+
+            <Button x:Name="suaBtn" Grid.Column="2"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40" Click="suaBtn_Click">Sửa công</Button>
+
+            <Button x:Name="xuatExcel" Grid.Column="3"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40" Click="xuatExcel_Click">Xuất Excel</Button>
+        </Grid>
+    </Grid>
+</UserControl>

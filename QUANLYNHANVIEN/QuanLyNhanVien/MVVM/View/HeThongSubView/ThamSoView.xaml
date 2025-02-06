@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="QuanLyNhanVien.MVVM.View.HeThongSubView.ThamSoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QuanLyNhanVien.MVVM.View.HeThongSubView"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Chỉnh sửa tham số"
+                  BorderThickness="0"
+                      FontSize="17"
+                      FontWeight="SemiBold"
+                  Grid.Column="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                        Text="Mã tham số" TextAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="1" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                        Text="Tên tham số" TextAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                        Text="Giá trị" TextAlignment="Right" VerticalAlignment="Center"/>
+
+
+                    <TextBox x:Name="maTSTbx" Style="{StaticResource InputTextBox}" Grid.Column="1" Grid.Row="0" IsEnabled="False"/>
+                    <TextBox x:Name="tenTSTbx" Style="{StaticResource InputTextBox}" Grid.Column="1" Grid.Row="1" IsEnabled="False"/>
+                    <TextBox x:Name="giaTriTbx" Style="{StaticResource InputTextBox}" Grid.Column="1" Grid.Row="2" PreviewTextInput="giaTriTbx_PreviewTextInput" />
+
+                </Grid>
+
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="39*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
+
+
+
+            <Button x:Name="suaBtn" Grid.Column="1"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="NaN" Height="NaN" Margin="26,5,26,5" RenderTransformOrigin="0.5,0.5" Click="suaBtn_Click" >Sửa tham số</Button>
+
+        </Grid>
+        <DataGrid x:Name="thamSoDtg" Grid.Row="2"
+                  ItemsSource="{Binding Path=DefaultView}"
+                  IsReadOnly="True" 
+                  Margin="10,10,10,20" SelectionChanged="thamSoDtg_SelectionChanged" >
+
+        </DataGrid>
+    </Grid>
+</UserControl>

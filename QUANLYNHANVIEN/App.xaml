@@ -1,0 +1,130 @@
+﻿<Application x:Class="QuanLyNhanVien.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:QuanLyNhanVien"
+             xmlns:viewModel="clr-namespace:QuanLyNhanVien.MVVM.ViewModel"
+             xmlns:subViewModel="clr-namespace:QuanLyNhanVien.MVVM.ViewModel.SubViewModel"
+             xmlns:chamCongSubViewModel="clr-namespace:QuanLyNhanVien.MVVM.ViewModel.ChamCongSubViewModel"
+             xmlns:phongBanSubViewModel="clr-namespace:QuanLyNhanVien.MVVM.ViewModel.PhongBanSubViewModel"
+             xmlns:bangLuongSubViewModel="clr-namespace:QuanLyNhanVien.MVVM.ViewModel.BangLuongSubViewModel"
+             xmlns:heThongSubViewModel="clr-namespace:QuanLyNhanVien.MVVM.ViewModel.HeThongSubViewModel"
+             xmlns:baoCaoThongKeViewModel="clr-namespace:QuanLyNhanVien.MVVM.ViewModel.BaoCaoThongKeSubViewModel"
+             xmlns:view="clr-namespace:QuanLyNhanVien.MVVM.View"
+             xmlns:subView="clr-namespace:QuanLyNhanVien.MVVM.View.SubView"
+             xmlns:chamCongSubView="clr-namespace:QuanLyNhanVien.MVVM.View.ChamCongSubView"
+             xmlns:phongBanSubView="clr-namespace:QuanLyNhanVien.MVVM.View.PhongBanSubVew"
+             xmlns:bangLuongSubView="clr-namespace:QuanLyNhanVien.MVVM.View.BangLuongSubView"
+             xmlns:heThongSubView="clr-namespace:QuanLyNhanVien.MVVM.View.HeThongSubView"
+             xmlns:baoCaoThongKeSubView="clr-namespace:QuanLyNhanVien.MVVM.View.BaoCaoThongKeSubView"
+             StartupUri="TrangChu.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"/>
+                <ResourceDictionary Source="Theme/TextBoxTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ComboBoxTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type viewModel:HomeViewModel}">
+                <view:HomeView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:QLNhanVienViewModel}">
+                <view:QLNhanVienView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:QLPhongBanViewModel}">
+                <view:QLPhongBanView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:QLChamCongViewModel}">
+                <view:QLChamCongView/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewModel:TraCuuThongTinViewModel}">
+                <view:TraCuuThongTinView/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewModel:QLBaoCaoThongKeViewModel}">
+                <view:QLBaoCaoThongKeView/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewModel:QLBangLuongViewModel}">
+                <view:QLBangLuongView/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewModel:QLHeThongViewModel}">
+                <view:QLHeThongView/>
+            </DataTemplate>
+            
+            
+
+            <!--Nhan Vien-->
+            <DataTemplate DataType="{x:Type subViewModel:NhanVienViewModel}">
+                <subView:NhanVienView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type subViewModel:XuatDSNhanVienViewModel}">
+                <subView:XuatDSNhanVienView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type subViewModel:BaoHiemNhanVienViewModel}">
+                <subView:BaoHiemNhanVienView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type subViewModel:QLThuViecThoiViecViewModel}">
+                <subView:QLThuViecThoiViecView/>
+            </DataTemplate>
+
+            <!--Phong Ban-->
+            <DataTemplate DataType="{x:Type phongBanSubViewModel:PhongBanViewModel}">
+                <phongBanSubView:PhongBanView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type phongBanSubViewModel:BoPhanViewModel}">
+                <phongBanSubView:BoPhanView/>
+            </DataTemplate>
+
+            
+            <!--Bang Luong-->
+            <DataTemplate DataType="{x:Type bangLuongSubViewModel:BangLuongViewModel}">
+                <bangLuongSubView:BangLuongView/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type bangLuongSubViewModel:ThayDoiBangLuongViewModel}">
+                <bangLuongSubView:ThayDoiBangLuongView/>
+            </DataTemplate>
+            
+            <!--He Thong-->
+            <DataTemplate DataType="{x:Type heThongSubViewModel:TaiKhoanViewModel}">
+                <heThongSubView:TaiKhoanView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type heThongSubViewModel:ThamSoViewModel}">
+                <heThongSubView:ThamSoView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type heThongSubViewModel:LichSuChinhSuaViewModel}">
+                <heThongSubView:LichSuChinhSuaView/>
+            </DataTemplate>
+            
+            <!--Cham Cong-->
+            <DataTemplate DataType="{x:Type chamCongSubViewModel:BangChamCongViewModel}">
+                <chamCongSubView:BangChamCongView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type chamCongSubViewModel:BangChamCongThuViecViewModel}">
+                <chamCongSubView:BangChamCongThuViecView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type chamCongSubViewModel:KhenThuongKyLuatViewModel}">
+                <chamCongSubView:KhenThuongKyLuatView/>
+            </DataTemplate>
+            
+            <!--Bao Cao Thong Ke-->
+            <DataTemplate DataType="{x:Type baoCaoThongKeViewModel:BaoCaoThongKeViewModel}">
+                <baoCaoThongKeSubView:BaoCaoThongKeView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type baoCaoThongKeViewModel:BaoCaoNhanSuViewModel}">
+                <baoCaoThongKeSubView:BaoCaoNhanSuView/>
+            </DataTemplate>
+            
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

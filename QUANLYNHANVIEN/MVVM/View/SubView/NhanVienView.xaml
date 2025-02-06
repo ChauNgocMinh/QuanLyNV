@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="QuanLyNhanVien.MVVM.View.SubView.NhanVienView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QuanLyNhanVien.MVVM.View.SubView"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="Transparent">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="Thông tin cơ bản"
+                      BorderThickness="0"
+                      FontSize="17"
+                      FontWeight="SemiBold">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Mã phòng" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Mã bộ phận" TextAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="4" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
+                           Text="Mã nhân viên" TextAlignment="Right" VerticalAlignment="Center"/>
+
+                <ComboBox Style="{StaticResource ComboboxStyle}" Grid.Column="1"/>
+                <ComboBox Style="{StaticResource ComboboxStyle}" Grid.Column="3"/>
+                <TextBox Style="{StaticResource InputTextBox}" Grid.Column="5" Grid.Row="0"/>
+
+            </Grid>
+        </GroupBox>
+        
+        <DataGrid Grid.Row="1"
+                  Margin="10,10,10,10">
+
+        </DataGrid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40"
+                    x:Name="btnThemNhanVien"
+                    Click="btnThemNhanVien_Click">Thêm nhân sự</Button>
+            <Button Grid.Column="1" 
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40">Xóa nhân sự</Button>
+            <Button Grid.Column="2"
+                    x:Name="btnSuaNhanSu"
+                    Click="btnSuaNhanSu_Click"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40">Sửa nhân sự</Button>
+            <Button Grid.Column="3"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40">Xem chi tiết</Button>
+            <Button Grid.Column="4"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="150" Height="40">Làm mới</Button>
+       
+            
+        </Grid>
+        
+
+    </Grid>
+</UserControl>

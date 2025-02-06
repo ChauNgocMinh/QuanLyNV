@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="QuanLyNhanVien.MVVM.View.TraCuuThongTinView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QuanLyNhanVien.MVVM.View"
+             xmlns:viewModel="clr-namespace:QuanLyNhanVien.MVVM.ViewModel.SubViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="Transparent">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="Tìm kiếm thông tin"
+                  FontWeight="SemiBold"
+                  FontSize="17"
+                  BorderThickness="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Margin="0,0,10,0" FontWeight="Normal" FontSize="17" Text="Mã bộ phận" TextAlignment="Right" VerticalAlignment="Center"/>
+
+                <TextBox Style="{StaticResource SearchBoxTheme2}" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3"/>
+
+                <RadioButton Grid.Row="1"
+                             Grid.Column="1"
+                             IsChecked="True"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             FontSize="17">Mã nhân viên</RadioButton>
+                
+                <RadioButton Grid.Row="1"
+                             Grid.Column="2"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             FontSize="17">Họ và tên</RadioButton>
+                
+                <RadioButton Grid.Row="1"
+                             Grid.Column="3"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             FontSize="17">Số điện thoại</RadioButton>
+
+                <Button Grid.Row="2" Grid.ColumnSpan="2" 
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="170" Height="40">Tìm kiếm</Button>
+
+                <Button Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="3"
+                    Style="{StaticResource WindowButtonTheme}"
+                    Width="170" Height="40">Thoát</Button>
+
+               
+            </Grid>
+        </GroupBox>
+        <DataGrid Grid.Row="1"
+                  Margin="10,10,10,20">
+
+        </DataGrid>
+    </Grid>
+</UserControl>
