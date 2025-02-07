@@ -1,21 +1,12 @@
 ﻿using BUS;
 using DTO;
-using MaterialDesignThemes.Wpf;
 using QuanLyNhanVien.MessageBox;
-using QuanLyNhanVien.MVVM.View.NhanVien_ThongTinCaNhanSubView;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using AForge.Video;
+using AForge.Video.DirectShow;
 
 namespace QuanLyNhanVien
 {
@@ -26,10 +17,45 @@ namespace QuanLyNhanVien
     {
         BUS_TAIKHOAN tk = new BUS_TAIKHOAN();
         BUS_NHANVIENHIENTAI busNhanVienHienTai = new BUS_NHANVIENHIENTAI();
+        private FilterInfoCollection videoDevices;
+        private VideoCaptureDevice videoSource;
+
         public DangNhap()
         {
             InitializeComponent();
+            StartCamera();
             taiKhoanTbx.Focus();
+        }
+        private void StartCamera()
+        {
+            videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            if (videoDevices.Count == 0)
+            {
+                bool? result = new MessageBoxCustom("Không tìm thấy camera", MessageType.Error, MessageButtons.Ok).ShowDialog();
+                return;
+            }
+
+            videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString);
+            videoSource.NewFrame += new NewFrameEventHandler(Video_NewFrame);
+            videoSource.Start();
+        }
+
+        private void Video_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                eventArgs.Frame.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                ms.Seek(0, SeekOrigin.Begin);
+
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = ms;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+
+                bitmapImage.Freeze();
+                Dispatcher.Invoke(() => cameraFeed.Source = bitmapImage);
+            }
         }
 
         private void btnDangNhap_Click(object sender, RoutedEventArgs e)

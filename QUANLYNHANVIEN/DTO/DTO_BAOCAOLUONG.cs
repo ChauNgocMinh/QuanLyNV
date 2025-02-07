@@ -8,12 +8,6 @@ namespace DTO
 {
     public class DTO_BAOCAOLUONG
     {
-        /*THANG INT,
-	NAM INT,
-	TONGTIEN MONEY,
-	PRIMARY KEY (THANG, NAM),
-	GHICHU NVARCHAR(50)*/
-
         private int thang;
         private int nam;
         private string ghichu;

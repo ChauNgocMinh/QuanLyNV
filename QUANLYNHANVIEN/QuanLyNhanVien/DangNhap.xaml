@@ -5,163 +5,123 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuanLyNhanVien"
         mc:Ignorable="d"
-        Title="DangNhap" Height="600" Width="840"
+        Title="DangNhap" Height="600" Width="1124"
         ResizeMode="NoResize"
         WindowStyle="None"
-        Background="Transparent" 
+        Background="Transparent"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen">
 
-    <Border Background="#efefef"
-            CornerRadius="20"
-            x:Name="MainBorder">
+    <Border Background="#efefef" CornerRadius="20" x:Name="MainBorder">
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="70"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock       
-            Margin="35,20,0,0"
-            FontSize="25"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top">
-            <Run
-                FontWeight="SemiBold"
-                Text="Quản lý"
-                Foreground="Black"/>
-            <Run
-                FontWeight="SemiBold"
-                Text="Nhân sự"
-                Foreground="#393ec4"/>
-            </TextBlock>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="450*"/>
+                <!-- Cột trái: Login -->
+                <ColumnDefinition Width="572*"/>
+                <ColumnDefinition Width="103*"/>
+                <!-- Cột phải: Camera -->
+            </Grid.ColumnDefinitions>
 
-            <StackPanel VerticalAlignment="Top"
-                            HorizontalAlignment="Right" 
-                            Orientation="Horizontal">
-
-                <Button Style="{StaticResource OptionButtonTheme}" 
-                        Click="MinimizedButton_Click">
-                    <Image Height="30" Source="/Images/MinusButton.png" RenderTransformOrigin="0.484,0.137"/>
-                </Button>
-
-                <Button Style="{StaticResource OptionButtonTheme}" 
-                        Click="CloseButton_Click">
-                    <Image Height="30" Source="/Images/XButton.png"/>
-                </Button>
-
-            </StackPanel>
-
-
-            <Grid Grid.Row="1"
-                  Width="400"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Top"
-                  Margin="70">
+            <!-- PHẦN LOGIN (BÊN TRÁI) -->
+            <Grid Grid.Column="0" Margin="20,20,20,20" Grid.ColumnSpan="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="80"/>
-                    <!--UserName-->
-                    <RowDefinition Height="80"/>
-                    <!--Account-->
-                    <RowDefinition Height="80"/>
-                    <!--Password-->
-                    <RowDefinition Height="100"/>
-                    <!--Button-->
-                    <RowDefinition Height="80"/>
-                    <!--Note-->
+                    <RowDefinition Height="70"/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock
-                    VerticalAlignment="Center"
-                    FontSize="30">
-                    <Run
-                        FontWeight="SemiBold"
-                        Text="Welcome to, "/>
-                    <Run
-                        Text="TKMETA"
-                        Foreground="#FF01A3ff"
-                        FontWeight="Bold"
-                        x:Name="tblUserName"/>
+                <!-- Tiêu đề -->
+                <TextBlock Margin="35,20,0,0" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Run FontWeight="SemiBold" Text="Quản lý" Foreground="Black"/>
+                    <Run FontWeight="SemiBold" Text="Nhân sự" Foreground="#393ec4"/>
                 </TextBlock>
 
-                <TextBox x:Name="taiKhoanTbx" Grid.Row="1"
-                         Style="{StaticResource AccountBoxTheme}"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Top"
-                         Foreground="Black"
-                         FontSize="15" KeyDown="Login_KeyDown">
-                    <TextBox.Effect>
-                        <DropShadowEffect ShadowDepth="4"
-                          Direction="330"
-                          Color="Black"
-                          Opacity="0.2"
-                          BlurRadius="4"/>
-                    </TextBox.Effect>
-                </TextBox>
+                <!-- Nút minimize và close -->
+                <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Style="{StaticResource OptionButtonTheme}" Click="MinimizedButton_Click">
+                        <Image Height="30" Source="/Images/MinusButton.png"/>
+                    </Button>
 
-                <PasswordBox x:Name="matKhauPwb" Grid.Row="2"
+                    <Button Style="{StaticResource OptionButtonTheme}" Click="CloseButton_Click">
+                        <Image Height="30" Source="/Images/XButton.png"/>
+                    </Button>
+                </StackPanel>
+
+                <!-- Form đăng nhập -->
+                <Grid Grid.Row="1" Width="350" HorizontalAlignment="Left" Margin="30">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="80"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock VerticalAlignment="Center" FontSize="30">
+                        <Run FontWeight="SemiBold" Text="Welcome to, "/>
+                        <Run Text="TKMETA" Foreground="#FF01A3ff" FontWeight="Bold" x:Name="tblUserName"/>
+                    </TextBlock>
+
+                    <TextBox x:Name="taiKhoanTbx" Grid.Row="1"
+                             Style="{StaticResource AccountBoxTheme}"
+                             Foreground="Black"
                              FontSize="15"
-                             VerticalAlignment="Top"
-                             HorizontalAlignment="Center"
-                             Style="{StaticResource PassWordBoxTheme}"
-                             Padding="15,15,15,15" KeyDown="Login_KeyDown">
-                    <PasswordBox.Effect>
-                        <DropShadowEffect ShadowDepth="4"
-                          Direction="330"
-                          Color="Black"
-                          Opacity="0.2"
-                          BlurRadius="4"/>
-                    </PasswordBox.Effect>
-                </PasswordBox>
+                             KeyDown="Login_KeyDown"/>
 
-                <Button Grid.Row="3"
-                        Content="Quên mật khẩu?"
-                        FontSize="15"
-                        FontWeight="SemiBold"
-                        Margin="10,16,0,62"
-                        Click="btnQuenMK_Click"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center" Height="22">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <TextBlock Text="{TemplateBinding Content}" />
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Foreground" Value="Red"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+                    <PasswordBox x:Name="matKhauPwb" Grid.Row="2"
+                                 FontSize="15"
+                                 Style="{StaticResource PassWordBoxTheme}"
+                                 Padding="15,15,15,15"
+                                 KeyDown="Login_KeyDown"/>
 
-                <Button Grid.Row="3"
-                        Width="150" Height="50"
-                        FontSize="17"
-                        Content="Đăng nhập"
-                        FontWeight="SemiBold"
-                        Foreground="White"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Right"
-                        Click="btnDangNhap_Click"
-                        Style="{StaticResource WindowButtonTheme}">
+                    <Button Grid.Row="3" Content="Quên mật khẩu?"
+                            FontSize="15" FontWeight="SemiBold"
+                            Margin="10,16,0,62"
+                            Click="btnQuenMK_Click"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000"/>
 
-                </Button>
+                    <Button Grid.Row="3" Width="150" Height="50"
+                            FontSize="17"
+                            Content="Đăng nhập"
+                            FontWeight="SemiBold"
+                            Foreground="White"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Click="btnDangNhap_Click"
+                            Style="{StaticResource WindowButtonTheme}"/>
 
-                <TextBlock Grid.Row="4"
-                           Text="Ghi chú:"
-                           HorizontalAlignment="Center"
-                           FontSize="14"
-                           FontWeight="SemiBold"
-                           Margin="0,0,0,60"
-                           Foreground="Gray"/>
+                    <TextBlock Grid.Row="4" Text="Ghi chú:"
+                               HorizontalAlignment="Center"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,60"
+                               Foreground="Gray"/>
 
-                <TextBlock Grid.Row="4"
-                           Margin="10,20"
-                           Text="Không nên chia sẻ tên đăng nhập, mật khẩu cho người khác."
-                           HorizontalAlignment="Center"
-                           FontSize="12" Width="380"
-                           TextAlignment="Center"
-                           Foreground="Gray"/>
+                    <TextBlock Grid.Row="4"
+                               Margin="10,20"
+                               Text="Không nên chia sẻ tên đăng nhập, mật khẩu cho người khác."
+                               HorizontalAlignment="Center"
+                               FontSize="12" Width="350"
+                               TextAlignment="Center"
+                               Foreground="Gray"/>
+                </Grid>
             </Grid>
+
+            <!-- PHẦN CAMERA (BÊN PHẢI) -->
+            <Border Grid.Column="1" Background="Black" CornerRadius="10" Margin="30,128,20,20" Grid.ColumnSpan="2">
+                <Grid>
+                    <TextBlock Foreground="White" FontSize="20"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Top"
+                               Margin="0,20,0,0"
+                               Text="Camera Check-in/Check-out"/>
+
+                    <Image x:Name="cameraFeed"
+                           Margin="10,10,10,10"
+                           Stretch="Fill"/>
+                </Grid>
+            </Border>
+
         </Grid>
     </Border>
 </Window>
