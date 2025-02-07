@@ -16,26 +16,21 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="450*"/>
-                <!-- Cột trái: Login -->
                 <ColumnDefinition Width="572*"/>
                 <ColumnDefinition Width="103*"/>
-                <!-- Cột phải: Camera -->
             </Grid.ColumnDefinitions>
 
-            <!-- PHẦN LOGIN (BÊN TRÁI) -->
             <Grid Grid.Column="0" Margin="20,20,20,20" Grid.ColumnSpan="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <!-- Tiêu đề -->
                 <TextBlock Margin="35,20,0,0" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top">
                     <Run FontWeight="SemiBold" Text="Quản lý" Foreground="Black"/>
                     <Run FontWeight="SemiBold" Text="Nhân sự" Foreground="#393ec4"/>
                 </TextBlock>
 
-                <!-- Nút minimize và close -->
                 <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button Style="{StaticResource OptionButtonTheme}" Click="MinimizedButton_Click">
                         <Image Height="30" Source="/Images/MinusButton.png"/>
@@ -46,7 +41,6 @@
                     </Button>
                 </StackPanel>
 
-                <!-- Form đăng nhập -->
                 <Grid Grid.Row="1" Width="350" HorizontalAlignment="Left" Margin="30">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="80"/>
@@ -107,7 +101,6 @@
                 </Grid>
             </Grid>
 
-            <!-- PHẦN CAMERA (BÊN PHẢI) -->
             <Border Grid.Column="1" Background="Black" CornerRadius="10" Margin="30,128,20,20" Grid.ColumnSpan="2">
                 <Grid>
                     <TextBlock Foreground="White" FontSize="20"
