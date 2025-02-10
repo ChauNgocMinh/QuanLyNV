@@ -21,6 +21,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Globalization;
 
 namespace QuanLyNhanVien.MVVM.View.ChamCongSubView
 {
@@ -134,7 +135,10 @@ namespace QuanLyNhanVien.MVVM.View.ChamCongSubView
 
             maNVTbx.Text = row[0].ToString();
             string selectedMonth = row[2].ToString() + "/" + row[3].ToString();
-            thoiGianDpk.SelectedDate = DateTime.ParseExact(selectedMonth, "MM/yyyy", null);
+            if (DateTime.TryParseExact(selectedMonth, "M/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate))
+            {
+                thoiGianDpk.SelectedDate = parsedDate;
+            }
             khenThuongTbx.Text = row[5].ToString();
             kyLuatTbx.Text = row[6].ToString();
             CheckVaTinhLuong();

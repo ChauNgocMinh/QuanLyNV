@@ -21,6 +21,7 @@ using Microsoft.Win32;
 using OfficeOpenXml.Style;
 using OfficeOpenXml;
 using System.IO;
+using System.Globalization;
 
 namespace QuanLyNhanVien.MVVM.View.SubView
 {
@@ -71,24 +72,41 @@ namespace QuanLyNhanVien.MVVM.View.SubView
             DataRowView row = dsNhanVienDtg.SelectedItem as DataRowView;
             ThemNhanVienForm themNhanVienForm = new ThemNhanVienForm(2);
 
-            suaNhanVien.Manv = int.Parse(row[0].ToString());
-            suaNhanVien.Maphong = row[1].ToString();
-            suaNhanVien.Maluong = row[2].ToString();
-            suaNhanVien.Hoten = row[3].ToString();
-            suaNhanVien.Ngaysinh = DateTime.Parse(row[4].ToString());
-            suaNhanVien.Gioitinh = row[5].ToString();
-            suaNhanVien.Dantoc = row[6].ToString();
-            suaNhanVien.Cmnd_cccd = row[7].ToString();
-            suaNhanVien.Noicap = row[8].ToString();
-            suaNhanVien.Chucvu = row[9].ToString();
-            suaNhanVien.Maloainv = row[10].ToString();
-            suaNhanVien.Loaihd = row[11].ToString();
-            suaNhanVien.Thoigian = int.Parse(row[12].ToString());
-            suaNhanVien.Ngaydangki = DateTime.Parse(row[13].ToString());
-            suaNhanVien.Ngayhethan = DateTime.Parse(row[14].ToString());
-            suaNhanVien.Sdt = row[15].ToString();
-            suaNhanVien.Hocvan = row[16].ToString();
-            suaNhanVien.Ghichu = row[17].ToString();
+            suaNhanVien.Manv = !string.IsNullOrWhiteSpace(row[0].ToString()) ? int.Parse(row[0].ToString()) : 0;
+            suaNhanVien.Maphong = row[1]?.ToString();
+            suaNhanVien.Maluong = row[2]?.ToString();
+            suaNhanVien.Hoten = row[3]?.ToString();
+
+            string dateString = row[4]?.ToString();
+            if (!string.IsNullOrWhiteSpace(dateString) && DateTime.TryParseExact(dateString.Trim(),
+                "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue))
+            {
+                suaNhanVien.Ngaysinh = dateValue;
+            }
+            suaNhanVien.Gioitinh = row[5]?.ToString();
+            suaNhanVien.Dantoc = row[6]?.ToString();
+            suaNhanVien.Cmnd_cccd = row[7]?.ToString();
+            suaNhanVien.Noicap = row[8]?.ToString();
+            suaNhanVien.Chucvu = row[9]?.ToString();
+            suaNhanVien.Maloainv = row[10]?.ToString();
+            suaNhanVien.Loaihd = row[11]?.ToString();
+            suaNhanVien.Thoigian = !string.IsNullOrWhiteSpace(row[12]?.ToString()) ? int.Parse(row[12].ToString()) : 0;
+            string ngayDangKiStr = row[13]?.ToString();
+            if (!string.IsNullOrWhiteSpace(ngayDangKiStr) && DateTime.TryParseExact(ngayDangKiStr.Trim(),
+                "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ngayDangKi))
+            {
+                suaNhanVien.Ngaydangki = ngayDangKi;
+            }
+            string ngayHetHanStr = row[14]?.ToString();
+            if (!string.IsNullOrWhiteSpace(ngayHetHanStr) && DateTime.TryParseExact(ngayHetHanStr.Trim(),
+                "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ngayHetHan))
+            {
+                suaNhanVien.Ngayhethan = ngayHetHan;
+            }
+
+            suaNhanVien.Sdt = row[15]?.ToString();
+            suaNhanVien.Hocvan = row[16]?.ToString();
+            suaNhanVien.Ghichu = row[17]?.ToString();
 
             themNhanVienForm.suaNhanVien = suaNhanVien;
             themNhanVienForm.ShowDialog();

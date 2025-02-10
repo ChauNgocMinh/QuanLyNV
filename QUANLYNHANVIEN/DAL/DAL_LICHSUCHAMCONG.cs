@@ -23,14 +23,21 @@ namespace DAL
         {
             if (connection.State != ConnectionState.Open)
                 connection.Open();
-            string sql = string.Format("INSERT INTO LICHSUCHAMCONG VALUES ('{0}','{1}', N'{2}')"
-                , lichSuChamCong.Manv, lichSuChamCong.Ngaychamconggannhat, lichSuChamCong.Ghichu);
-            SqlCommand cmd = new SqlCommand(sql, connection);
-            if (cmd.ExecuteNonQuery() > 0)
-                return true;
-            else return false;
-            connection.Close();
+
+            string sql = "INSERT INTO LICHSUCHAMCONG (Manv, Ngaychamconggannhat, Ghichu) VALUES (@Manv, @Ngaychamconggannhat, @Ghichu)";
+
+            using (SqlCommand cmd = new SqlCommand(sql, connection))
+            {
+                cmd.Parameters.AddWithValue("@Manv", lichSuChamCong.Manv);
+                cmd.Parameters.AddWithValue("@Ngaychamconggannhat", lichSuChamCong.Ngaychamconggannhat);
+                cmd.Parameters.AddWithValue("@Ghichu", lichSuChamCong.Ghichu ?? (object)DBNull.Value);
+
+                bool success = cmd.ExecuteNonQuery() > 0;
+                connection.Close();
+                return success;
+            }
         }
+
         /*
 CREATE TABLE LICHSUCHAMCONG
 (

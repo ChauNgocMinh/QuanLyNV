@@ -33,18 +33,69 @@ namespace DAL
         {
             if (connection.State != ConnectionState.Open)
                 connection.Open();
-            string sql = string.Format("INSERT INTO NHANVIEN VALUES ('{0}', '{1}',N'{2}'" +
-                ",'{3}',N'{4}',N'{5}','{6}'," +
-                "N'{7}',N'{8}','{9}',N'{10}','{11}','{12}','{13}','{14}',N'{15}',N'{16}')"
-                , nhanVien.Maphong, nhanVien.Maluong, nhanVien.Hoten, nhanVien.Ngaysinh,
-                nhanVien.Gioitinh,nhanVien.Dantoc,nhanVien.Cmnd_cccd,nhanVien.Noicap,nhanVien.Chucvu,nhanVien.Maloainv,
-                nhanVien.Loaihd,nhanVien.Thoigian,nhanVien.Ngaydangki,nhanVien.Ngayhethan,nhanVien.Sdt,nhanVien.Hocvan,nhanVien.Ghichu);
-            SqlCommand cmd = new SqlCommand(sql, connection);
-            if (cmd.ExecuteNonQuery() > 0)
-                return true;
-            else return false;
-            connection.Close();
+
+            using (SqlTransaction transaction = connection.BeginTransaction())
+            {
+                try
+                {
+                    string sqlNhanVien = @"
+                        INSERT INTO NHANVIEN (MAPHONG, MALUONG, HOTEN, NGAYSINH, GIOITINH, DANTOC, CMND_CCCD, NOICAP, CHUCVU, MALOAINV, 
+                                              LOAIHD, THOIGIAN, NGAYDANGKI, NGAYHETHAN, SDT, HOCVAN, GHICHU)
+                        OUTPUT INSERTED.MANV
+                        VALUES (@Maphong, @Maluong, @Hoten, @Ngaysinh, @Gioitinh, @Dantoc, @Cmnd, @Noicap, @Chucvu, @Maloainv, 
+                                @Loaihd, @Thoigian, @Ngaydangki, @Ngayhethan, @Sdt, @Hocvan, @Ghichu)";
+
+                    using (SqlCommand cmdNhanVien = new SqlCommand(sqlNhanVien, connection, transaction))
+                    {
+                        cmdNhanVien.Parameters.AddWithValue("@Maphong", nhanVien.Maphong);
+                        cmdNhanVien.Parameters.AddWithValue("@Maluong", nhanVien.Maluong);
+                        cmdNhanVien.Parameters.AddWithValue("@Hoten", nhanVien.Hoten);
+                        cmdNhanVien.Parameters.AddWithValue("@Ngaysinh", nhanVien.Ngaysinh);
+                        cmdNhanVien.Parameters.AddWithValue("@Gioitinh", nhanVien.Gioitinh);
+                        cmdNhanVien.Parameters.AddWithValue("@Dantoc", nhanVien.Dantoc);
+                        cmdNhanVien.Parameters.AddWithValue("@Cmnd", nhanVien.Cmnd_cccd);
+                        cmdNhanVien.Parameters.AddWithValue("@Noicap", nhanVien.Noicap);
+                        cmdNhanVien.Parameters.AddWithValue("@Chucvu", nhanVien.Chucvu);
+                        cmdNhanVien.Parameters.AddWithValue("@Maloainv", nhanVien.Maloainv);
+                        cmdNhanVien.Parameters.AddWithValue("@Loaihd", nhanVien.Loaihd);
+                        cmdNhanVien.Parameters.AddWithValue("@Thoigian", nhanVien.Thoigian);
+                        cmdNhanVien.Parameters.AddWithValue("@Ngaydangki", nhanVien.Ngaydangki);
+                        cmdNhanVien.Parameters.AddWithValue("@Ngayhethan", nhanVien.Ngayhethan);
+                        cmdNhanVien.Parameters.AddWithValue("@Sdt", nhanVien.Sdt);
+                        cmdNhanVien.Parameters.AddWithValue("@Hocvan", nhanVien.Hocvan);
+                        cmdNhanVien.Parameters.AddWithValue("@Ghichu", nhanVien.Ghichu);
+
+                        int newMaNV = (int)cmdNhanVien.ExecuteScalar();
+
+                        string sqlTaiKhoan = @"
+                            INSERT INTO TAIKHOAN (MALOAITK, TENCHUTAIKHOAN, TENDANGNHAP, MATKHAU) 
+                            VALUES (@Maloaitk, @TenChuTaiKhoan, @TenDangNhap, @MatKhau)";
+
+                        using (SqlCommand cmdTaiKhoan = new SqlCommand(sqlTaiKhoan, connection, transaction))
+                        {
+                            cmdTaiKhoan.Parameters.AddWithValue("@Maloaitk", 3); 
+                            cmdTaiKhoan.Parameters.AddWithValue("@TenChuTaiKhoan", nhanVien.Hoten);
+                            cmdTaiKhoan.Parameters.AddWithValue("@TenDangNhap", newMaNV.ToString()); 
+                            cmdTaiKhoan.Parameters.AddWithValue("@MatKhau", "123456");
+
+                            cmdTaiKhoan.ExecuteNonQuery();
+                        }
+                    }
+                    transaction.Commit();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    return false;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
+
         /*
     MANV INT IDENTITY(1,1) PRIMARY KEY,
 	MAPHONG VARCHAR(6),

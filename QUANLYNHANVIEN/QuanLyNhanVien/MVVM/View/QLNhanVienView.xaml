@@ -15,7 +15,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal">
@@ -23,9 +24,11 @@
                 <Style TargetType="RadioButton"
                        BasedOn="{StaticResource SettingOptionsButton}"/>
             </StackPanel.Resources>
-            
+
             <RadioButton Content="Nhân viên" IsChecked="True" 
                          Command="{Binding NhanVienViewCommand}"/>
+            <RadioButton Content="Xuất danh sách nhân viên"
+                         Command="{Binding XuatDSNhanVienViewCommand}"/>
             <RadioButton Content="Quản lý chế độ"
                          Command="{Binding BaoHiemNhanVienViewCommand}"/>
             <RadioButton Content="Quản lý thử việc/thôi việc"

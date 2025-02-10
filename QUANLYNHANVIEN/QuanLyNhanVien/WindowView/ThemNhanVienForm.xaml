@@ -133,7 +133,7 @@
                 <Button x:Name="themSuaBtn" Grid.Column="3"
                         Grid.ColumnSpan="2"
                         Style="{StaticResource WindowButtonTheme}"
-                        Width="150" Height="40" Click="themSuaBtn_Click"></Button>
+                        Width="150" Height="40" Click="themSuaBtn_Click">Thêm</Button>
             </Grid>
         </Grid>
     </Border>
