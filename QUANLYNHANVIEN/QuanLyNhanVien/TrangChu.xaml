@@ -64,12 +64,15 @@
                                     <Style TargetType="RadioButton" BasedOn="{StaticResource AccountDropDownButtonTheme}"/>
                                 </StackPanel.Resources>
 
+                                <RadioButton Content="Đổi mật khẩu"
+                                             Click="btnDoiMK_Click"/>
+
+                                <RadioButton Content="Thông báo"
+                                             Click="btnThongBao"/>
 
                                 <RadioButton x:Name="SignUp" 
                                                  Content="Đăng xuất"
                                              Click="LogOutButton_Click"/>
-                                <RadioButton Content="Đổi mật khẩu"
-                                             Click="btnDoiMK_Click"/>
                             </StackPanel>
                         </Border>
 
@@ -116,7 +119,7 @@
                             <TextBlock Margin="20,0,0,0">Bảng lương</TextBlock>
                         </RadioButton>
 
-                        
+
                         <RadioButton x:Name="baoCaoRbn" Height="40"
                              FontSize="17"
                              Style="{StaticResource MenuButtonTheme}"
@@ -137,15 +140,21 @@
                              Command="{Binding QLHeThongViewCommand}">
                             <TextBlock Margin="20,0,0,0">Hệ thống</TextBlock>
                         </RadioButton>
+                        <RadioButton x:Name="heThongRbn_Copy" Height="40"
+                            FontSize="17"
+                            Style="{StaticResource MenuButtonTheme}"
+                            Command="{Binding QLThongBaoViewCommand}">
+                            <TextBlock Margin="20,0,0,0">Thông báo</TextBlock>
+                        </RadioButton>
                         <RadioButton x:Name="thongTinCaNhanRbn" Height="40"
                              FontSize="17"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding NhanVien_QLThongTinCaNhanCommand}">
                             <TextBlock Margin="20,0,0,0">Thông tin cá nhân</TextBlock>
                         </RadioButton>
-                        
 
-                        
+
+
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -196,10 +205,10 @@
                         <ContentControl
                             Margin="10"
                             Content="{Binding CurrentView}"/>
-                        
+
                     </Grid>
                 </Border>
-                
+
                 <Border Grid.Row="2"
                   Background="White"
                     CornerRadius="0,0,20,0">
@@ -221,8 +230,8 @@
                                    Text="Quyền hạn:" TextAlignment="Right" VerticalAlignment="Center"/>
                         <TextBlock x:Name="loaiTaiKhoanTbk" Grid.Column="3" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
                                    Text="Hiển thị loại tài khoản" TextAlignment="Left" VerticalAlignment="Center"/>
-                        
-                        
+
+
                         <TextBlock x:Name="Timer" 
                                    Grid.Column="5"
                                HorizontalAlignment="Center"

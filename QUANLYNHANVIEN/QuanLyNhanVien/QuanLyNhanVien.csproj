@@ -115,6 +115,7 @@
     <Compile Include="MVVM\ViewModel\NhanVien_ThongTinCaNhanSubViewModel\MainNhanVien_QLThongTinCaNhanViewModel.cs" />
     <Compile Include="MVVM\ViewModel\NhanVien_ThongTinCaNhanSubViewModel\ThongTinCaNhanViewModel.cs" />
     <Compile Include="MVVM\ViewModel\QLBaoCaoThongKeViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\QLThongBaoViewModel.cs" />
     <Compile Include="MVVM\View\BangLuongSubView\BangLuongView.xaml.cs">
       <DependentUpon>BangLuongView.xaml</DependentUpon>
     </Compile>
@@ -151,10 +152,16 @@
     <Compile Include="MVVM\View\QLBaoCaoThongKeView.xaml.cs">
       <DependentUpon>QLBaoCaoThongKeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MVVM\View\QLThongBaoView.xaml.cs">
+      <DependentUpon>QLThongBaoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="QuenMK.xaml.cs">
       <DependentUpon>QuenMK.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\DatePickerCalendar.cs" />
+    <Compile Include="ThongBao.xaml.cs">
+      <DependentUpon>ThongBao.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowView\ChamCong.xaml.cs">
       <DependentUpon>ChamCong.xaml</DependentUpon>
     </Compile>
@@ -307,6 +314,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVVM\View\QLThongBaoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVVM\View\SubView\BaoHiemNhanVienView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -443,6 +454,10 @@
       <DependentUpon>TrangChu.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ThongBao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WindowView\ChamCong.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -110,13 +110,10 @@ namespace QuanLyNhanVien
             DoiMatKhau doiMatKhau = new DoiMatKhau();
             doiMatKhau.ShowDialog();
         }
-
-        //private void StartClock()
-        //{
-        //    DispatcherTimer timer = new DispatcherTimer();
-        //    timer.Interval = TimeSpan.FromSeconds(1);
-        //    timer.Tick += TickEvent;
-        //    timer.Start();
-        //}
+        private void btnThongBao(object sender, RoutedEventArgs e)
+        {
+            ThongBao form = new ThongBao();
+            form.ShowDialog();
+        }
     }
 }
