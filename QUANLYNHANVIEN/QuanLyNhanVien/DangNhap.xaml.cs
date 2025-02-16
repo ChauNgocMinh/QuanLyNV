@@ -7,19 +7,27 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using System.Windows.Media;
+using OpenCvSharp;
+using System.Threading;
+using System.Threading.Tasks;
+using OpenCvSharp.WpfExtensions;
+using System;
 
 namespace QuanLyNhanVien
 {
     /// <summary>
     /// Interaction logic for DangNhap.xaml
     /// </summary>
-    public partial class DangNhap : Window
+    public partial class DangNhap : System.Windows.Window
     {
-        BUS_TAIKHOAN tk = new BUS_TAIKHOAN();
-        BUS_NHANVIENHIENTAI busNhanVienHienTai = new BUS_NHANVIENHIENTAI();
-        private FilterInfoCollection videoDevices;
-        private VideoCaptureDevice videoSource;
+        private BUS_TAIKHOAN tk = new BUS_TAIKHOAN();
+        private BUS_NHANVIENHIENTAI busNhanVienHienTai = new BUS_NHANVIENHIENTAI();
 
+        private VideoCapture capture;
+        private CascadeClassifier faceCascade;
+        private bool isCameraRunning = false;
+        private CancellationTokenSource cts;
         public DangNhap()
         {
             InitializeComponent();
@@ -28,16 +36,78 @@ namespace QuanLyNhanVien
         }
         private void StartCamera()
         {
-            videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            if (videoDevices.Count == 0)
+            capture = new VideoCapture(0); // Mở camera mặc định
+            if (!capture.IsOpened())
             {
                 bool? result = new MessageBoxCustom("Không tìm thấy camera", MessageType.Error, MessageButtons.Ok).ShowDialog();
                 return;
             }
 
-            videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString);
-            videoSource.NewFrame += new NewFrameEventHandler(Video_NewFrame);
-            videoSource.Start();
+            faceCascade = new CascadeClassifier("haarcascade_frontalface_default.xml");
+
+            isCameraRunning = true;
+            cts = new CancellationTokenSource();
+
+            Task.Run(() => CaptureCamera(cts.Token));
+        }
+
+        private void CaptureCamera(CancellationToken token)
+        {
+            try
+            {
+                while (isCameraRunning && !token.IsCancellationRequested)
+                {
+                    using (var frame = new Mat())
+                    {
+                        capture.Read(frame);
+                        if (frame.Empty()) continue;
+
+                        DetectFace(frame);
+                        var bitmap = frame.ToBitmapSource();
+                        bitmap.Freeze();
+
+                        // 🔥 Bắt lỗi nếu Dispatcher đã bị dispose khi đóng ứng dụng
+                        Dispatcher.Invoke(() =>
+                        {
+                            if (!token.IsCancellationRequested)
+                                cameraFeed.Source = bitmap;
+                        });
+                    }
+                }
+            }
+            catch (TaskCanceledException) // 🔥 Bắt lỗi khi task bị hủy
+            {
+                Console.WriteLine("Task CaptureCamera đã bị hủy.");
+            }
+            catch (Exception ex) // 🔥 Bắt lỗi khác
+            {
+                Console.WriteLine("Lỗi trong CaptureCamera: " + ex.Message);
+            }
+        }
+
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            isCameraRunning = false;
+            cts?.Cancel();
+
+            if (capture != null)
+            {
+                capture.Release();
+                capture.Dispose();
+            }
+        }
+
+        private void DetectFace(Mat frame)
+        {
+            var gray = new Mat();
+            Cv2.CvtColor(frame, gray, ColorConversionCodes.BGR2GRAY);
+            var faces = faceCascade.DetectMultiScale(gray, 1.1, 6, HaarDetectionTypes.ScaleImage, new OpenCvSharp.Size(30, 30));
+
+            foreach (var rect in faces)
+            {
+                Cv2.Rectangle(frame, rect, Scalar.Red, 2);
+            }
         }
 
         private void Video_NewFrame(object sender, NewFrameEventArgs eventArgs)
@@ -48,6 +118,8 @@ namespace QuanLyNhanVien
                 ms.Seek(0, SeekOrigin.Begin);
 
                 BitmapImage bitmapImage = new BitmapImage();
+
+
                 bitmapImage.BeginInit();
                 bitmapImage.StreamSource = ms;
                 bitmapImage.CacheOption = BitmapCacheOption.OnLoad;

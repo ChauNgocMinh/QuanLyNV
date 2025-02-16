@@ -6,135 +6,120 @@
         xmlns:local="clr-namespace:QuanLyNhanVien"
         xmlns:c="clr-namespace:QuanLyNhanVien.Theme"
         mc:Ignorable="d"
-        Title="DangNhap" Height="600" Width="600"
-        ResizeMode="NoResize"
-        WindowStyle="None"
-        Background="Transparent" 
-        AllowsTransparency="True"
-        WindowStartupLocation="CenterScreen">
-    <Border Background="#d9dfe7"
-            BorderThickness="2"            
-            CornerRadius="20" BorderBrush="#3cb4b5">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition/>
-                <RowDefinition Height="100"/>
-            </Grid.RowDefinitions>
+        Title="Thêm Nhân Viên" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
 
-            <TextBlock FontWeight="Bold"
-                       FontSize="20"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center">Thông tin nhân viên</TextBlock>
+    <Grid Margin="0,0,0,-1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="1"
-                  Margin="10,0,10,0">
+        <Border Grid.Column="0" Background="#d9dfe7" CornerRadius="10" Padding="10" BorderBrush="#3cb4b5" BorderThickness="2" Margin="0,0,0,84">
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="92*"/>
-                    <ColumnDefinition Width="110"/>
-                    <ColumnDefinition Width="92*"/>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
+
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Mã nhân viên" TextAlignment="Left" VerticalAlignment="Center" Height="19"/>
-                <TextBlock Grid.Row="1" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Phòng" TextAlignment="Left" VerticalAlignment="Center" Height="18"/>
-                <TextBlock Grid.Row="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Họ tên" TextAlignment="Left" VerticalAlignment="Center" Height="19"/>
-                <TextBlock Grid.Row="3" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Ngày sinh" TextAlignment="Left" VerticalAlignment="Center" Height="18"/>
-                <TextBlock Grid.Row="4" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="CMND_CCCD" TextAlignment="Left" VerticalAlignment="Center" Height="19"/>
-                <TextBlock Grid.Row="5" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Nơi cấp" TextAlignment="Left" VerticalAlignment="Center" Height="19"/>
-                <TextBlock Grid.Row="6" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Ngày ký" TextAlignment="Left" VerticalAlignment="Center" Height="18"/>
-                <TextBlock Grid.Row="7" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Ngày hết hạn" TextAlignment="Left" VerticalAlignment="Center" Height="19"/>
-                <TextBlock Grid.Row="8" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Mã lương" TextAlignment="Left" VerticalAlignment="Center" Height="18"/>
-                <TextBlock Grid.Row="9" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Ghi chú" TextAlignment="Left" VerticalAlignment="Center" Height="19"/>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Mã nhân viên" FontWeight="Normal" FontSize="14"/>
+                <TextBox x:Name="maNVTbx" Grid.Column="1" Grid.Row="0" Height="32" IsEnabled="False" Loaded="maNVTbx_Loaded"/>
 
-                <TextBox x:Name="maNVTbx" Style="{StaticResource InputTextBox}" Grid.Column="1" IsEnabled="False" Loaded="maNVTbx_Loaded" VerticalAlignment="Center" Height="32" />
-                <ComboBox x:Name="phongCbx" FontSize="17" FontWeight="Normal" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Path=DefaultView}" Height="32"/>
-                <TextBox x:Name="tenTbx" Style="{StaticResource InputTextBox}" Grid.Column="1" Grid.Row="1" Margin="0,44,0,44" Grid.RowSpan="3"/>
-                <DatePicker x:Name="ngaySinhDpk" FontSize="17" FontWeight="Normal" Grid.Column="1" Grid.Row="3" Height="32"
-                            c:DatePickerDateFormat.DateFormat="MM/dd/yyyy" Text="MM/dd/yyyy" SelectedDateChanged="ngaySinhDpk_SelectedDateChanged"/>
-                <TextBox x:Name="cccdTbx" Style="{StaticResource InputTextBox}" Grid.Column="1" Grid.Row="3" Margin="0,44,0,0" Grid.RowSpan="2" PreviewTextInput="numberTextBoxes_PreviewTextInput"/>
-                <TextBox x:Name="noiCapTbx" Style="{StaticResource InputTextBox}" Grid.Column="1" Grid.Row="5" Margin="0,0,0,44" Grid.RowSpan="2"/>
-                <DatePicker x:Name="ngayKyDpk" FontSize="17" FontWeight="Normal" Grid.Column="1" Grid.Row="6" Height="32" 
-                            c:DatePickerDateFormat.DateFormat="MM/dd/yyyy" Text="MM/dd/yyyy"/>
-                <DatePicker x:Name="ngayHetHanDpk" FontSize="17" FontWeight="Normal" Grid.Column="1" Grid.Row="7" Height="31" 
-                            c:DatePickerDateFormat.DateFormat="MM/dd/yyyy" Text="MM/dd/yyyy"/>
-                <ComboBox x:Name="maLuongCbx" FontSize="17" FontWeight="Normal" Grid.Column="1" Grid.Row="8" ItemsSource="{Binding Path=DefaultView}" Height="32"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Phòng" FontWeight="Normal" FontSize="14"/>
+                <ComboBox x:Name="phongCbx" Grid.Column="1" Grid.Row="1" Height="32" ItemsSource="{Binding Path=DefaultView}"/>
 
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Họ tên" FontWeight="Normal" FontSize="14"/>
+                <TextBox x:Name="tenTbx" Grid.Column="1" Grid.Row="2" Height="32"/>
 
-                <TextBlock Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Chức vụ" TextAlignment="Right" VerticalAlignment="Center" Height="19"/>
-                <TextBlock Grid.Row="1" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Loại nhân viên" TextAlignment="Right" VerticalAlignment="Center" Height="18"/>
-                <TextBlock Grid.Row="2" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Giới tính" TextAlignment="Right" VerticalAlignment="Center" Height="19"/>
-                <TextBlock Grid.Row="3" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Dân tộc" TextAlignment="Right" VerticalAlignment="Center" Height="18"/>
-                <TextBlock Grid.Row="4" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Số điện thoại" TextAlignment="Right" VerticalAlignment="Center" Height="19"/>
-                <TextBlock Grid.Row="5" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Học vấn" TextAlignment="Right" VerticalAlignment="Center" Height="19"/>
-                <TextBlock Grid.Row="6" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Loại hợp đồng" TextAlignment="Right" VerticalAlignment="Center" Height="18"/>
-                <TextBlock Grid.Row="7" Grid.Column="2" Margin="0,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Thời gian" TextAlignment="Right" VerticalAlignment="Center" Height="19"/>
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="Ngày sinh" FontWeight="Normal" FontSize="14"/>
+                <DatePicker x:Name="ngaySinhDpk" Grid.Column="1" Grid.Row="3" Height="32" 
+                            c:DatePickerDateFormat.DateFormat="MM/dd/yyyy" SelectedDateChanged="ngaySinhDpk_SelectedDateChanged"/>
 
-                <TextBox x:Name="chucVuTbx" Style="{StaticResource InputTextBox}" Grid.Column="3" Grid.Row="0" Margin="0,0,0,44" Grid.RowSpan="2"/>
-                <ComboBox x:Name="loaiNVCbx" FontSize="17" FontWeight="Normal" Grid.Column="3" Grid.Row="1" Height="32"/>
-                <ComboBox x:Name="gioiTinhCbx" FontSize="17" FontWeight="Normal" Grid.Column="3" Grid.Row="2" Height="31"/>
-                <ComboBox x:Name="danTocCbx" FontSize="17" FontWeight="Normal" Grid.Column="3" Grid.Row="3" ItemsSource="{Binding Path=DefaultView}" Height="32"/>
-                <TextBox x:Name="soDienThoaiTbx" Style="{StaticResource InputTextBox}" Grid.Column="3" Grid.Row="3" Margin="0,44,0,0" Grid.RowSpan="2" PreviewTextInput="numberTextBoxes_PreviewTextInput"/>
-                <TextBox x:Name="hocVanTbx" Style="{StaticResource InputTextBox}" Grid.Column="3" Grid.Row="5" Margin="0,0,0,44" Grid.RowSpan="2"/>
-                <ComboBox x:Name="loaiHopDongCbx" FontSize="17" FontWeight="Normal" Grid.Column="3" Grid.Row="6" ItemsSource="{Binding Path=DefaultView}" Height="32" SelectionChanged="loaiHopDongCbx_SelectionChanged"/>
-                <TextBox x:Name="thoiGianTbx" Style="{StaticResource InputTextBox}" Grid.Column="3" Grid.Row="7" Margin="0,0,50,0" PreviewTextInput="numberTextBoxes_PreviewTextInput" TextChanged="thoiGianTbx_TextChanged"/>
-                <TextBlock Grid.Column="3" Grid.Row="7" Margin="140,0,10,0" FontWeight="Normal" FontSize="14" 
-                           Text="Năm" TextAlignment="Right" VerticalAlignment="Center" Height="19"/>
-                <TextBox x:Name="ghiChuTbx" Style="{StaticResource InputTextBox}" Grid.Column="1" Grid.Row="9" Margin="0,6,10,6" Grid.ColumnSpan="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="CMND_CCCD" FontWeight="Normal" FontSize="14"/>
+                <TextBox x:Name="cccdTbx" Grid.Column="1" Grid.Row="4" Height="32" PreviewTextInput="numberTextBoxes_PreviewTextInput"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="Nơi cấp" FontWeight="Normal" FontSize="14"/>
+                <TextBox x:Name="noiCapTbx" Grid.Column="1" Grid.Row="5" Height="32"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="Ngày ký" FontWeight="Normal" FontSize="14"/>
+                <DatePicker x:Name="ngayKyDpk" Grid.Column="1" Grid.Row="6" Height="32" c:DatePickerDateFormat.DateFormat="MM/dd/yyyy"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="7" Text="Ngày hết hạn" FontWeight="Normal" FontSize="14"/>
+                <DatePicker x:Name="ngayHetHanDpk" Grid.Column="1" Grid.Row="7" Height="32" c:DatePickerDateFormat.DateFormat="MM/dd/yyyy"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="8" Text="Mã lương" FontWeight="Normal" FontSize="14"/>
+                <ComboBox x:Name="maLuongCbx" Grid.Column="1" Grid.Row="8" Height="32" ItemsSource="{Binding Path=DefaultView}"/>
+
+                <TextBlock Grid.Column="2" Grid.Row="0" Text="Chức vụ" FontWeight="Normal" FontSize="14"/>
+                <TextBox x:Name="chucVuTbx" Grid.Column="3" Grid.Row="0" Height="32"/>
+
+                <TextBlock Grid.Column="2" Grid.Row="1" Text="Loại nhân viên" FontWeight="Normal" FontSize="14"/>
+                <ComboBox x:Name="loaiNVCbx" Grid.Column="3" Grid.Row="1" Height="32"/>
+
+                <TextBlock Grid.Column="2" Grid.Row="2" Text="Giới tính" FontWeight="Normal" FontSize="14"/>
+                <ComboBox x:Name="gioiTinhCbx" Grid.Column="3" Grid.Row="2" Height="32"/>
+
+                <TextBlock Grid.Column="2" Grid.Row="3" Text="Dân tộc" FontWeight="Normal" FontSize="14"/>
+                <ComboBox x:Name="danTocCbx" Grid.Column="3" Grid.Row="3" Height="32" ItemsSource="{Binding Path=DefaultView}"/>
+
+                <TextBlock Grid.Column="2" Grid.Row="4" Text="Số điện thoại" FontWeight="Normal" FontSize="14"/>
+                <TextBox x:Name="soDienThoaiTbx" Grid.Column="3" Grid.Row="4" Height="32" PreviewTextInput="numberTextBoxes_PreviewTextInput"/>
+
+                <TextBlock Grid.Column="2" Grid.Row="5" Text="Học vấn" FontWeight="Normal" FontSize="14"/>
+                <TextBox x:Name="hocVanTbx" Grid.Column="3" Grid.Row="5" Height="32"/>
+
+                <TextBlock Grid.Column="2" Grid.Row="6" Text="Loại hợp đồng" FontWeight="Normal" FontSize="14"/>
+                <ComboBox x:Name="loaiHopDongCbx" Grid.Column="3" Grid.Row="6" Height="32" ItemsSource="{Binding Path=DefaultView}" SelectionChanged="loaiHopDongCbx_SelectionChanged"/>
+
+                <TextBlock Grid.Column="2" Grid.Row="7" Text="Thời gian" FontWeight="Normal" FontSize="14"/>
+                <TextBox x:Name="thoiGianTbx" Grid.Column="3" Grid.Row="7" Height="32" PreviewTextInput="numberTextBoxes_PreviewTextInput"/>
+
+                <TextBlock Grid.Column="2" Grid.Row="8" Text="Ghi chú" FontWeight="Normal" FontSize="14" Grid.ColumnSpan="2" Margin="0,0,169,0"/>
+                <TextBox x:Name="ghiChuTbx"  Grid.Column="3" Grid.Row="8" Height="32"/>
+
             </Grid>
+        </Border>
 
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+        <Border Background="LightGray" CornerRadius="10" Padding="10" BorderBrush="#3cb4b5" BorderThickness="2" Grid.ColumnSpan="2" Margin="533,0,0,84">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock FontSize="20" FontWeight="Bold" HorizontalAlignment="Center">Chụp ảnh</TextBlock>
+                <Border Width="200" Height="200" Background="Black" CornerRadius="10">
+                    <Image Name="imgCamera" Stretch="Fill"/>
+                </Border>
+                <Button Content="Chụp ảnh" Width="150" Margin="10" Click="BtnCapture_Click"/>
+            </StackPanel>
+        </Border>
 
-                <Button Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        Background="Red"
-                        x:Name="huyBtn"
-                        Click="huyBtn_Click"
-                    Style="{StaticResource WindowButtonTheme}"
-                    Width="150" Height="40">Hủy</Button>
-                <Button x:Name="themSuaBtn" Grid.Column="3"
-                        Grid.ColumnSpan="2"
-                        Style="{StaticResource WindowButtonTheme}"
-                        Width="150" Height="40" Click="themSuaBtn_Click">Thêm</Button>
-            </Grid>
+        <Grid Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="themSuaBtn" Content="Thêm" Width="120" Height="40" Background="#3cb4b5" 
+                Foreground="White" Click="themSuaBtn_Click" Grid.Column="0" 
+                HorizontalAlignment="Right" Margin="0,0,10,0"/>
+
+            <Button x:Name="huyBtn" Content="Hủy" Width="120" Height="40" Background="Gray" 
+                Foreground="White" Click="huyBtn_Click" Grid.Column="1" 
+                HorizontalAlignment="Left" Margin="10,0,0,0"/>
         </Grid>
-    </Border>
+
+    </Grid>
 </Window>

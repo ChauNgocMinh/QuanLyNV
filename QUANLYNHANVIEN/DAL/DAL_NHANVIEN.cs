@@ -40,10 +40,10 @@ namespace DAL
                 {
                     string sqlNhanVien = @"
                         INSERT INTO NHANVIEN (MAPHONG, MALUONG, HOTEN, NGAYSINH, GIOITINH, DANTOC, CMND_CCCD, NOICAP, CHUCVU, MALOAINV, 
-                                              LOAIHD, THOIGIAN, NGAYDANGKI, NGAYHETHAN, SDT, HOCVAN, GHICHU)
+                                              LOAIHD, THOIGIAN, NGAYDANGKI, NGAYHETHAN, SDT, HOCVAN, GHICHU, ANHDAIDIEN)
                         OUTPUT INSERTED.MANV
                         VALUES (@Maphong, @Maluong, @Hoten, @Ngaysinh, @Gioitinh, @Dantoc, @Cmnd, @Noicap, @Chucvu, @Maloainv, 
-                                @Loaihd, @Thoigian, @Ngaydangki, @Ngayhethan, @Sdt, @Hocvan, @Ghichu)";
+                                @Loaihd, @Thoigian, @Ngaydangki, @Ngayhethan, @Sdt, @Hocvan, @Ghichu, @AnhDaiDien)";
 
                     using (SqlCommand cmdNhanVien = new SqlCommand(sqlNhanVien, connection, transaction))
                     {
@@ -64,6 +64,7 @@ namespace DAL
                         cmdNhanVien.Parameters.AddWithValue("@Sdt", nhanVien.Sdt);
                         cmdNhanVien.Parameters.AddWithValue("@Hocvan", nhanVien.Hocvan);
                         cmdNhanVien.Parameters.AddWithValue("@Ghichu", nhanVien.Ghichu);
+                        cmdNhanVien.Parameters.AddWithValue("@AnhDaiDien", nhanVien.AnhDaiDien);
 
                         int newMaNV = (int)cmdNhanVien.ExecuteScalar();
 
@@ -123,10 +124,10 @@ namespace DAL
             string sql = string.Format("UPDATE NHANVIEN " +
                 "SET MAPHONG='{0}', MALUONG='{1}',HOTEN=N'{2}',NGAYSINH='{3}',GIOITINH=N'{4}',DANTOC=N'{5}',CMND_CCCD='{6}', " +
                 "NOICAP=N'{7}',CHUCVU=N'{8}',MALOAINV='{9}',LOAIHD=N'{10}',THOIGIAN='{11}',NGAYKY='{12}',NGAYHETHAN='{13}', " +
-                "SDT='{14}',HOCVAN=N'{15}',GHICHU=N'{16}'" + "WHERE MANV = '{17}'",
+                "SDT='{14}',HOCVAN=N'{15}',GHICHU=N'{16}',ANHDAIDIEN=N'{17}'" + "WHERE MANV = '{18}'",
                 nhanVien.Maphong, nhanVien.Maluong, nhanVien.Hoten, nhanVien.Ngaysinh,
                 nhanVien.Gioitinh, nhanVien.Dantoc, nhanVien.Cmnd_cccd, nhanVien.Noicap, nhanVien.Chucvu, nhanVien.Maloainv,
-                nhanVien.Loaihd, nhanVien.Thoigian, nhanVien.Ngaydangki, nhanVien.Ngayhethan, nhanVien.Sdt, nhanVien.Hocvan, nhanVien.Ghichu, nhanVien.Manv);
+                nhanVien.Loaihd, nhanVien.Thoigian, nhanVien.Ngaydangki, nhanVien.Ngayhethan, nhanVien.Sdt, nhanVien.Hocvan, nhanVien.Ghichu, nhanVien.AnhDaiDien, nhanVien.Manv);
             SqlCommand cmd = new SqlCommand(sql, connection);
             if (cmd.ExecuteNonQuery() > 0)
                 return true;

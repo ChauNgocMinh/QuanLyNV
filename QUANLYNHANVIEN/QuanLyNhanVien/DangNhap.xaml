@@ -110,8 +110,10 @@
                                Text="Camera Check-in/Check-out"/>
 
                     <Image x:Name="cameraFeed"
-                           Margin="10,10,10,10"
-                           Stretch="Fill"/>
+                           Margin="5"
+                           Stretch="Uniform"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
                 </Grid>
             </Border>
 

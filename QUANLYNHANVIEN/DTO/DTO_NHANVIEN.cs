@@ -26,12 +26,13 @@ namespace DTO
         public string sdt;
         public string hocvan;
         public string ghichu;
+        public string anhdaidien;
 
         public DTO_NHANVIEN()
         {
         }
 
-        public DTO_NHANVIEN(int thoigian, DateTime ngaydangki, DateTime ngayhethan, string sdt, string hocvan, string ghichu, int manv, string maphong, string maluong, string hoten, DateTime ngaysinh, string gioitinh, string dantoc, string cmnd_cccd, string noicap, string chucvu, string maloainv, string loaihd)
+        public DTO_NHANVIEN(int thoigian, DateTime ngaydangki, DateTime ngayhethan, string sdt, string hocvan, string ghichu, int manv, string maphong, string maluong, string hoten, DateTime ngaysinh, string gioitinh, string dantoc, string cmnd_cccd, string noicap, string chucvu, string maloainv, string loaihd, string anhDaiDien)
         {
             this.thoigian = thoigian;
             this.ngaydangki = ngaydangki;
@@ -51,6 +52,7 @@ namespace DTO
             this.chucvu = chucvu;
             this.maloainv = maloainv;
             this.loaihd = loaihd;
+            this.anhdaidien = anhDaiDien;
         }
 
         public int Manv { get => manv; set => manv = value; }
@@ -71,5 +73,6 @@ namespace DTO
         public string Sdt { get => sdt; set => sdt = value; }
         public string Hocvan { get => hocvan; set => hocvan = value; }
         public string Ghichu { get => ghichu; set => ghichu = value; }
+        public string AnhDaiDien { get => anhdaidien; set => anhdaidien = value; }
     }
 }

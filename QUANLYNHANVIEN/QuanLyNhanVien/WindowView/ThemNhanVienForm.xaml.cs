@@ -1,29 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using DTO;
 using BUS;
-using System.Data;
-using QuanLyNhanVien.MVVM.View.SubView;
 using QuanLyNhanVien.MessageBox;
 using System.Text.RegularExpressions;
-
+using AForge.Video.DirectShow;
+using AForge.Video;
+using System.Drawing;
+using System.IO;
+using System.Data.SqlClient;
+using System.Web;
+using System.Drawing.Imaging;
 namespace QuanLyNhanVien.WindowView
 {
     /// <summary>
     /// Interaction logic for ThemNhanVienForm.xaml
     /// </summary>
-    public partial class ThemNhanVienForm : Window
+    public partial class ThemNhanVienForm : System.Windows.Window
     {
         public BUS_NHANVIEN busNhanVien = new BUS_NHANVIEN();
         public BUS_PHONGBAN busPhongBan = new BUS_PHONGBAN();
@@ -34,11 +31,16 @@ namespace QuanLyNhanVien.WindowView
         public DTO_LSCHINHSUA dtoLSChinhSua = new DTO_LSCHINHSUA();
         public int flag;
 
+        private FilterInfoCollection videoDevices;
+        private VideoCaptureDevice videoSource;
+        private Bitmap currentFrame;
+        private string tempImagePath;
         public ThemNhanVienForm(int CheckAdd)
         {
             InitializeComponent();
             ComboBoxes_Loaded();
             flag = CheckAdd;
+            StartCamera();
 
             if (flag == 1)
             {
@@ -61,6 +63,72 @@ namespace QuanLyNhanVien.WindowView
                 tenTbx.IsEnabled = false;
                 themSuaBtn.Content = "Sửa";
             }
+        }
+        private void StartCamera()
+        {
+            videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            if (videoDevices.Count == 0)
+            {
+                new MessageBoxCustom("Không tìm thấy camera", MessageType.Error, MessageButtons.Ok).ShowDialog();
+                return;
+            }
+
+            videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString);
+            videoSource.NewFrame += Video_NewFrame;
+            videoSource.Start();
+        }
+
+        private void Video_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+            if (currentFrame != null)
+                currentFrame.Dispose();
+
+            currentFrame = (Bitmap)eventArgs.Frame.Clone();
+            BitmapImage bitmapImage = ConvertBitmapToBitmapImage(currentFrame);
+            bitmapImage.Freeze();
+            Dispatcher.Invoke(() =>
+            {
+                imgCamera.Source = bitmapImage;
+            });
+        }
+
+        private BitmapImage ConvertBitmapToBitmapImage(Bitmap bitmap)
+        {
+            using (MemoryStream memory = new MemoryStream())
+            {
+                bitmap.Save(memory, ImageFormat.Bmp);
+                memory.Position = 0;
+
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memory;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                bitmapImage.DecodePixelWidth = bitmap.Width; 
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+                return bitmapImage;
+            }
+        }
+
+        private void BtnCapture_Click(object sender, RoutedEventArgs e)
+        {
+            if (videoSource == null || !videoSource.IsRunning || currentFrame == null)
+            {
+                new MessageBoxCustom("Không có khung hình để lưu!", MessageType.Error, MessageButtons.Ok).ShowDialog();
+                return;
+            }
+            string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+
+            string folderPath = Path.Combine(projectPath, "CapturedImages");
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+            string fileName = $"IMG_{DateTime.Now:yyyyMMdd_HHmmss}.jpg";
+            tempImagePath = Path.Combine(folderPath, fileName);
+
+            currentFrame.Save(tempImagePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            new MessageBoxCustom("Ảnh đã lưu tại: " + tempImagePath, MessageType.Info, MessageButtons.Ok).ShowDialog();
         }
 
         private void huyBtn_Click(object sender, RoutedEventArgs e)
@@ -91,6 +159,7 @@ namespace QuanLyNhanVien.WindowView
             dtoNhanVien.Hocvan = hocVanTbx.Text;
             dtoNhanVien.Ghichu = ghiChuTbx.Text;
             dtoNhanVien.Dantoc = danTocCbx.Text;
+            dtoNhanVien.AnhDaiDien = tempImagePath;
 
             if (maNVTbx.Text == string.Empty)
             {
