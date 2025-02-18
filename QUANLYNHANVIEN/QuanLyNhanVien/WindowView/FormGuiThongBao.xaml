@@ -1,0 +1,72 @@
+﻿<Window x:Class="QuanLyNhanVien.WindowView.FormGuiThongBao"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyNhanVien"
+        mc:Ignorable="d"
+        Title="Gửi Thông Báo" Height="300" Width="600"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="Transparent" 
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen">
+
+    <Border Background="#d9dfe7"
+            CornerRadius="20"
+            Padding="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Tiêu đề -->
+            <TextBlock Grid.Row="0"
+                       Text="Gửi Thông Báo"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,10"/>
+
+            <!-- Ô nhập thông báo -->
+            <TextBox x:Name="txtNoiDung"
+                     Grid.Row="1"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     Height="120"
+                     VerticalScrollBarVisibility="Auto"
+                     BorderBrush="Gray"
+                     BorderThickness="1"
+                     Padding="5"
+                     FontSize="14"
+                     Background="White"/>
+
+            <!-- Nút chức năng -->
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,10,0,0">
+                <Button x:Name="btnGui"
+                        Content="Gửi"
+                        Width="100"
+                        Height="35"
+                        Background="Green"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        Click="btnGui_Click"
+                        Margin="0,0,10,0"/>
+                <Button x:Name="btnHuy"
+                        Content="Hủy"
+                        Width="100"
+                        Height="35"
+                        Background="Red"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        Click="btnHuy_Click"/>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</Window>

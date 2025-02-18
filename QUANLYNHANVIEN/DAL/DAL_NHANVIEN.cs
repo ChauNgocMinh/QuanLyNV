@@ -18,8 +18,15 @@ namespace DAL
             SqlDataAdapter da = new SqlDataAdapter("SELECT MANV 'Mã nhân viên', MAPHONG 'Mã phòng', MALUONG 'Mã lương', HOTEN 'Họ tên', FORMAT(NGAYSINH, 'MM/dd/yyyy') 'Ngày sinh', GIOITINH 'Giới tính', DANTOC 'Dân tộc', CMND_CCCD 'CMND-CCCD', NOICAP 'Nơi cấp', CHUCVU 'Chức vụ', MALOAINV 'Mã loại nhân viên', LOAIHD 'Loại hợp đồng', THOIGIAN 'Thời gian hợp đồng', FORMAT(NGAYKY, 'MM/dd/yyyy') 'Ngày ký hợp đồng',  FORMAT(NGAYHETHAN, 'MM/dd/yyyy') 'Ngày hết hạn', SDT 'Số điện thoại', HOCVAN 'Học vấn', GHICHU 'Ghi chú ' FROM NHANVIEN", connection);
             DataTable dtNHANVIEN = new DataTable();
             da.Fill(dtNHANVIEN);
+            dtNHANVIEN.Columns.Add("Chọn", typeof(bool));
+            foreach (DataRow row in dtNHANVIEN.Rows)
+            {
+                row["Chọn"] = false;
+            }
+
             return dtNHANVIEN;
         }
+
 
         public DataTable xuatNhanVien()
         {

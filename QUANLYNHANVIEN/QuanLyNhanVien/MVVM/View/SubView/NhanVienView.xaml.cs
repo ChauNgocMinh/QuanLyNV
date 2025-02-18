@@ -60,6 +60,16 @@ namespace QuanLyNhanVien.MVVM.View.SubView
             ClearBoxes();
         }
 
+        private void guiTBBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (dsNhanVienDtg.SelectedItems.Count == 0)
+            {
+                bool? result = new MessageBoxCustom("Vui lòng chọn nhân viên cần gửi thông báo!", MessageType.Warning, MessageButtons.Ok).ShowDialog();
+                return;
+            }
+
+        }
+
         private void suaBtn_Click(object sender, RoutedEventArgs e)
         {
             if (dsNhanVienDtg.SelectedItems.Count == 0)
@@ -198,7 +208,10 @@ namespace QuanLyNhanVien.MVVM.View.SubView
                 ClearBoxes();
                 return;
             }
-
+            foreach (DataRowView rowView in dsNhanVienDtg.SelectedItems)
+            {
+                bool isChecked = (bool)rowView["Chọn"];
+            }
             dtoNhanVien.Manv = int.Parse(row[0].ToString());
             boPhanCbx.SelectedItem = busBoPhan.TimKiemTheoMaBoPhan(busPhongBan.TimKiemBoPhanTheoPhong(row[1].ToString()));
             phongCbx.SelectedItem = busPhongBan.TimKiemTenPhongBanTheoMa(row[1].ToString());

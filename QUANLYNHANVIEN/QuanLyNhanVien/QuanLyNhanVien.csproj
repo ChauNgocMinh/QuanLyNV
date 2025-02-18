@@ -241,6 +241,9 @@
     <Compile Include="WindowView\ChamCongThuViec.xaml.cs">
       <DependentUpon>ChamCongThuViec.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowView\FormGuiThongBao.xaml.cs">
+      <DependentUpon>FormGuiThongBao.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowView\ChiTietChinhSua.xaml.cs">
       <DependentUpon>ChiTietChinhSua.xaml</DependentUpon>
     </Compile>
@@ -538,6 +541,10 @@
     <Page Include="WindowView\ChamCongThuViec.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowView\FormGuiThongBao.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="WindowView\ChiTietChinhSua.xaml">
       <Generator>MSBuild:Compile</Generator>
