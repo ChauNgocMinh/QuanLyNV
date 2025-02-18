@@ -13,6 +13,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using OpenCvSharp.WpfExtensions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using OpenCvSharp.Face;
 
 namespace QuanLyNhanVien
 {
@@ -28,6 +31,9 @@ namespace QuanLyNhanVien
         private CascadeClassifier faceCascade;
         private bool isCameraRunning = false;
         private CancellationTokenSource cts;
+
+        private LBPHFaceRecognizer recognizer;
+        private readonly string folderPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "CapturedImages");
         public DangNhap()
         {
             InitializeComponent();
@@ -36,7 +42,7 @@ namespace QuanLyNhanVien
         }
         private void StartCamera()
         {
-            capture = new VideoCapture(0); // Mở camera mặc định
+            capture = new VideoCapture(0);
             if (!capture.IsOpened())
             {
                 bool? result = new MessageBoxCustom("Không tìm thấy camera", MessageType.Error, MessageButtons.Ok).ShowDialog();
@@ -65,8 +71,6 @@ namespace QuanLyNhanVien
                         DetectFace(frame);
                         var bitmap = frame.ToBitmapSource();
                         bitmap.Freeze();
-
-                        // 🔥 Bắt lỗi nếu Dispatcher đã bị dispose khi đóng ứng dụng
                         Dispatcher.Invoke(() =>
                         {
                             if (!token.IsCancellationRequested)
@@ -75,11 +79,11 @@ namespace QuanLyNhanVien
                     }
                 }
             }
-            catch (TaskCanceledException) // 🔥 Bắt lỗi khi task bị hủy
+            catch (TaskCanceledException)
             {
                 Console.WriteLine("Task CaptureCamera đã bị hủy.");
             }
-            catch (Exception ex) // 🔥 Bắt lỗi khác
+            catch (Exception ex)
             {
                 Console.WriteLine("Lỗi trong CaptureCamera: " + ex.Message);
             }
@@ -98,6 +102,28 @@ namespace QuanLyNhanVien
             }
         }
 
+        private void TrainRecognizer()
+        {
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            var images = new List<Mat>();
+            var labels = new List<int>();
+
+            string[] files = Directory.GetFiles(folderPath, "*.jpg");
+            for (int i = 0; i < files.Length; i++)
+            {
+                var img = new Mat(files[i], ImreadModes.Grayscale);
+                images.Add(img);
+                labels.Add(i);
+            }
+
+            recognizer = LBPHFaceRecognizer.Create();
+            recognizer.Train(images, labels);
+        }
+
         private void DetectFace(Mat frame)
         {
             var gray = new Mat();
@@ -107,8 +133,69 @@ namespace QuanLyNhanVien
             foreach (var rect in faces)
             {
                 Cv2.Rectangle(frame, rect, Scalar.Red, 2);
+
+                // Cắt ảnh khuôn mặt ra từ frame
+                var faceMat = new Mat(frame, rect);
+                string tempFile = Path.Combine(folderPath, "temp.jpg");
+                faceMat.SaveImage(tempFile);
+
+                // Kiểm tra xem có trùng với ảnh nào trong folder không
+                if (IsMatchingFace(tempFile))
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        new MessageBoxCustom("Khuôn mặt trùng khớp với dữ liệu đã lưu!", MessageType.Success, MessageButtons.Ok).ShowDialog();
+                    });
+                }
             }
         }
+
+        // Hàm kiểm tra khuôn mặt có trùng với ảnh đã lưu không
+        private bool IsMatchingFace(string tempFilePath)
+        {
+            string[] imageFiles = Directory.GetFiles(folderPath, "*.jpg"); // Lấy danh sách ảnh
+
+            foreach (var imageFile in imageFiles)
+            {
+                if (CompareFaces(tempFilePath, imageFile)) // Nếu trùng khớp
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Hàm so sánh 2 khuôn mặt
+        private bool CompareFaces(string imgPath1, string imgPath2)
+        {
+            var img1 = Cv2.ImRead(imgPath1, ImreadModes.Grayscale);
+            var img2 = Cv2.ImRead(imgPath2, ImreadModes.Grayscale);
+
+            if (img1.Empty() || img2.Empty())
+                return false;
+
+            // Dùng thuật toán ORB để phát hiện điểm đặc trưng trên ảnh
+            var orb = ORB.Create();
+            var keypoints1 = new KeyPoint[] { };
+            var keypoints2 = new KeyPoint[] { };
+            var descriptors1 = new Mat();
+            var descriptors2 = new Mat();
+
+            orb.DetectAndCompute(img1, null, out keypoints1, descriptors1);
+            orb.DetectAndCompute(img2, null, out keypoints2, descriptors2);
+
+            if (descriptors1.Empty() || descriptors2.Empty())
+                return false;
+
+            // Sử dụng matcher để tìm độ trùng khớp
+            var bf = new BFMatcher(NormTypes.Hamming, crossCheck: true);
+            var matches = bf.Match(descriptors1, descriptors2);
+
+            // Tính toán mức độ trùng khớp
+            double matchScore = matches.Average(m => m.Distance);
+            return matchScore < 50; // Giá trị càng nhỏ thì càng giống nhau (tùy chỉnh ngưỡng này)
+        }
+
 
         private void Video_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
