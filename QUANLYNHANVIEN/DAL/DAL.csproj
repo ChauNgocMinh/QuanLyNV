@@ -64,6 +64,7 @@
     <Compile Include="DAL_TAIKHOAN.cs" />
     <Compile Include="DAL_THAMSO.cs" />
     <Compile Include="DAL_THAYDOIBANGLUONG.cs" />
+    <Compile Include="DAL_THONGBAO.cs" />
     <Compile Include="Hash256.cs" />
     <Compile Include="KetNoi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

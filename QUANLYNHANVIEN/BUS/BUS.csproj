@@ -99,6 +99,7 @@
     <Compile Include="BUS_TAIKHOAN.cs" />
     <Compile Include="BUS_THAMSO.cs" />
     <Compile Include="BUS_THAYDOIBANGLUONG.cs" />
+    <Compile Include="BUS_THONGBAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BUS;
+using System.Data;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace QuanLyNhanVien
 {
@@ -19,9 +9,18 @@ namespace QuanLyNhanVien
     /// </summary>
     public partial class ThongBao : Window
     {
+        BUS_THONGBAO tb = new BUS_THONGBAO();
+
         public ThongBao()
         {
             InitializeComponent();
+            LoadThongBao(1);
+        }
+
+        private void LoadThongBao(int maUser)
+        {
+            DataTable dt = tb.getThongBao(maUser);
+            dgThongBao.ItemsSource = dt.DefaultView;
         }
     }
 }
