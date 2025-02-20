@@ -26,18 +26,17 @@ namespace QuanLyNhanVien
     {
         private BUS_TAIKHOAN tk = new BUS_TAIKHOAN();
         private BUS_NHANVIENHIENTAI busNhanVienHienTai = new BUS_NHANVIENHIENTAI();
-
         private VideoCapture capture;
         private CascadeClassifier faceCascade;
         private bool isCameraRunning = false;
         private CancellationTokenSource cts;
 
-        private LBPHFaceRecognizer recognizer;
         private readonly string folderPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "CapturedImages");
         public DangNhap()
         {
             InitializeComponent();
             StartCamera();
+            LoadSavedFaces();
             taiKhoanTbx.Focus();
         }
         private void StartCamera()
@@ -102,26 +101,13 @@ namespace QuanLyNhanVien
             }
         }
 
-        private void TrainRecognizer()
+        private List<(string fileName, Mat faceMat)> savedFaces = new List<(string, Mat)>();
+
+        // Load ảnh đã lưu vào bộ nhớ khi khởi động
+        private void LoadSavedFaces()
         {
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-
-            var images = new List<Mat>();
-            var labels = new List<int>();
-
-            string[] files = Directory.GetFiles(folderPath, "*.jpg");
-            for (int i = 0; i < files.Length; i++)
-            {
-                var img = new Mat(files[i], ImreadModes.Grayscale);
-                images.Add(img);
-                labels.Add(i);
-            }
-
-            recognizer = LBPHFaceRecognizer.Create();
-            recognizer.Train(images, labels);
+            string[] imageFiles = Directory.GetFiles(folderPath, "*.jpg");
+            savedFaces = imageFiles.Select(file => (Path.GetFileName(file), Cv2.ImRead(file, ImreadModes.Grayscale))).ToList();
         }
 
         private void DetectFace(Mat frame)
@@ -136,45 +122,38 @@ namespace QuanLyNhanVien
 
                 // Cắt ảnh khuôn mặt ra từ frame
                 var faceMat = new Mat(frame, rect);
-                string tempFile = Path.Combine(folderPath, "temp.jpg");
-                faceMat.SaveImage(tempFile);
 
-                // Kiểm tra xem có trùng với ảnh nào trong folder không
-                if (IsMatchingFace(tempFile))
+                // Kiểm tra khuôn mặt với ảnh đã lưu
+                string matchedFile = GetMatchingFaceFile(faceMat);
+                if (!string.IsNullOrEmpty(matchedFile))
                 {
                     Dispatcher.Invoke(() =>
                     {
-                        new MessageBoxCustom("Khuôn mặt trùng khớp với dữ liệu đã lưu!", MessageType.Success, MessageButtons.Ok).ShowDialog();
+                        new MessageBoxCustom($"Khuôn mặt trùng khớp với ảnh: {matchedFile}", MessageType.Success, MessageButtons.Ok).ShowDialog();
                     });
                 }
             }
         }
 
-        // Hàm kiểm tra khuôn mặt có trùng với ảnh đã lưu không
-        private bool IsMatchingFace(string tempFilePath)
+        // Kiểm tra khuôn mặt trùng với file nào
+        private string GetMatchingFaceFile(Mat faceMat)
         {
-            string[] imageFiles = Directory.GetFiles(folderPath, "*.jpg"); // Lấy danh sách ảnh
-
-            foreach (var imageFile in imageFiles)
+            foreach (var (fileName, savedFace) in savedFaces)
             {
-                if (CompareFaces(tempFilePath, imageFile)) // Nếu trùng khớp
+                if (CompareFaces(faceMat, savedFace))
                 {
-                    return true;
+                    return fileName; // Trả về tên file nếu khớp
                 }
             }
-            return false;
+            return string.Empty;
         }
 
-        // Hàm so sánh 2 khuôn mặt
-        private bool CompareFaces(string imgPath1, string imgPath2)
+        // So sánh hai khuôn mặt dùng ORB + BFMatcher
+        private bool CompareFaces(Mat img1, Mat img2)
         {
-            var img1 = Cv2.ImRead(imgPath1, ImreadModes.Grayscale);
-            var img2 = Cv2.ImRead(imgPath2, ImreadModes.Grayscale);
-
             if (img1.Empty() || img2.Empty())
                 return false;
 
-            // Dùng thuật toán ORB để phát hiện điểm đặc trưng trên ảnh
             var orb = ORB.Create();
             var keypoints1 = new KeyPoint[] { };
             var keypoints2 = new KeyPoint[] { };
@@ -187,13 +166,14 @@ namespace QuanLyNhanVien
             if (descriptors1.Empty() || descriptors2.Empty())
                 return false;
 
-            // Sử dụng matcher để tìm độ trùng khớp
             var bf = new BFMatcher(NormTypes.Hamming, crossCheck: true);
             var matches = bf.Match(descriptors1, descriptors2);
 
-            // Tính toán mức độ trùng khớp
+            if (matches.Length < 35) // Số điểm match tối thiểu để tránh nhận diện sai
+                return false;
+
             double matchScore = matches.Average(m => m.Distance);
-            return matchScore < 50; // Giá trị càng nhỏ thì càng giống nhau (tùy chỉnh ngưỡng này)
+            return matchScore < 39; // Điều chỉnh ngưỡng tùy theo độ chính xác mong muốn
         }
 
 
