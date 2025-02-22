@@ -43,6 +43,7 @@ namespace QuanLyNhanVien.MVVM.View.SubView
         public BUS_THAYDOIBANGLUONG busThayDoiBangLuong = new BUS_THAYDOIBANGLUONG();
         public BUS_SOBH busSoBH = new BUS_SOBH();
         public BUS_BOPHAN busBoPhan = new BUS_BOPHAN();
+        List<int> Ids = new List<int>();
 
         public NhanVienView()
         {
@@ -62,12 +63,14 @@ namespace QuanLyNhanVien.MVVM.View.SubView
 
         private void guiTBBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (dsNhanVienDtg.SelectedItems.Count == 0)
+            if (Ids.Count == 0)
             {
                 bool? result = new MessageBoxCustom("Vui lòng chọn nhân viên cần gửi thông báo!", MessageType.Warning, MessageButtons.Ok).ShowDialog();
                 return;
             }
 
+            FormGuiThongBao formGuiThongBao = new FormGuiThongBao(Ids);
+            formGuiThongBao.ShowDialog();
         }
 
         private void suaBtn_Click(object sender, RoutedEventArgs e)
@@ -201,22 +204,29 @@ namespace QuanLyNhanVien.MVVM.View.SubView
         private void dsNhanVienDtg_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dsNhanVienDtg.SelectedItems.Count == 0) return;
-            DataRowView row = dsNhanVienDtg.SelectedItem as DataRowView;
-
-            if (row == null)
-            {
-                ClearBoxes();
-                return;
-            }
             foreach (DataRowView rowView in dsNhanVienDtg.SelectedItems)
             {
-                bool isChecked = (bool)rowView["Chọn"];
+                rowView["Chọn"] = !(bool)rowView["Chọn"]; 
+                if (int.TryParse(rowView["Mã nhân viên"].ToString(), out int userId))
+                {
+                    Ids.Add(userId);
+                }
             }
-            dtoNhanVien.Manv = int.Parse(row[0].ToString());
-            boPhanCbx.SelectedItem = busBoPhan.TimKiemTheoMaBoPhan(busPhongBan.TimKiemBoPhanTheoPhong(row[1].ToString()));
-            phongCbx.SelectedItem = busPhongBan.TimKiemTenPhongBanTheoMa(row[1].ToString());
-            tenNVTbx.Text = row[3].ToString();
+
+            dsNhanVienDtg.Items.Refresh(); 
+            if (Ids.Count > 0)
+            {
+                dtoNhanVien.Manv = Ids[0]; 
+                DataRowView row = dsNhanVienDtg.SelectedItem as DataRowView;
+                if (row != null)
+                {
+                    boPhanCbx.SelectedItem = busBoPhan.TimKiemTheoMaBoPhan(busPhongBan.TimKiemBoPhanTheoPhong(row[1].ToString()));
+                    phongCbx.SelectedItem = busPhongBan.TimKiemTenPhongBanTheoMa(row[1].ToString());
+                    tenNVTbx.Text = row[3].ToString();
+                }
+            }
         }
+
 
         private void lamMoiBtn_Click(object sender, RoutedEventArgs e)
         {

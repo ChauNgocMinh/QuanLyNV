@@ -10,8 +10,8 @@ namespace DAL
         {
             string query = "SELECT tb.MATB AS 'Mã thông báo', tb.TIEUDE AS 'Tiêu đề', tb.NOIDUNG AS 'Nội dung', tb.TYPE AS 'Loại', tb.CreateDate AS 'Ngày gửi' " +
                            "FROM ThongBao tb " +
-                           "JOIN ThongBaoNhanVien tbnv ON tb.MATB = tbnv.MATB " +
-                           "WHERE tbnv.MA = @Ma " +
+                           "JOIN THONGBAONHANVIEN tbnv ON tb.MATB = tbnv.MATB " +
+                           "WHERE tbnv.MANV = @Ma " +
                            "ORDER BY tb.CreateDate DESC";
             using (SqlDataAdapter da = new SqlDataAdapter(query, connection))
             {
@@ -40,11 +40,11 @@ namespace DAL
                 {
                     foreach (int idUser in danhSachNguoiDung)
                     {
-                        string queryInsertNguoiDung = "INSERT INTO ThongBaoNguoiDung (MATB, MA) VALUES (@Matb, @Ma)";
+                        string queryInsertNguoiDung = "INSERT INTO THONGBAONHANVIEN (MATB, MANV, IsOpen) VALUES (@Matb, @Manv, 0)";
                         using (SqlCommand cmdNguoiDung = new SqlCommand(queryInsertNguoiDung, connection))
                         {
                             cmdNguoiDung.Parameters.AddWithValue("@Matb", matb);
-                            cmdNguoiDung.Parameters.AddWithValue("@Ma", idUser);
+                            cmdNguoiDung.Parameters.AddWithValue("@Manv", idUser);
                             cmdNguoiDung.ExecuteNonQuery();
                         }
                     }

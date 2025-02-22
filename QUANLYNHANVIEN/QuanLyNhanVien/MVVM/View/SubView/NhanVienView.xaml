@@ -64,64 +64,46 @@
           SelectionChanged="dsNhanVienDtg_SelectionChanged" 
           MouseDoubleClick="dsNhanVienDtg_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Chọn" Binding="{Binding Chọn}" Width="70" />
-
-                <DataGridTextColumn Header="Mã nhân viên" Binding="{Binding Mã nhân viên}" Width="100" />
-                <DataGridTextColumn Header="Mã phòng" Binding="{Binding Mã phòng}" Width="100" />
-                <DataGridTextColumn Header="Mã lương" Binding="{Binding Mã lương}" Width="100" />
-                <DataGridTextColumn Header="Họ tên" Binding="{Binding Họ tên}" Width="200" />
-                <DataGridTextColumn Header="Ngày sinh" Binding="{Binding Ngày sinh}" Width="120" />
-                <DataGridTextColumn Header="Giới tính" Binding="{Binding Giới tính}" Width="100" />
-                <DataGridTextColumn Header="Dân tộc" Binding="{Binding Dân tộc}" Width="100" />
-                <DataGridTextColumn Header="CMND-CCCD" Binding="{Binding CMND-CCCD}" Width="150" />
-                <DataGridTextColumn Header="Nơi cấp" Binding="{Binding Nơi cấp}" Width="150" />
-                <DataGridTextColumn Header="Chức vụ" Binding="{Binding Chức vụ}" Width="150" />
-                <DataGridTextColumn Header="Mã loại nhân viên" Binding="{Binding Mã loại nhân viên}" Width="150" />
-                <DataGridTextColumn Header="Loại hợp đồng" Binding="{Binding Loại hợp đồng}" Width="150" />
-                <DataGridTextColumn Header="Thời gian hợp đồng" Binding="{Binding Thời gian hợp đồng}" Width="150" />
-                <DataGridTextColumn Header="Ngày ký hợp đồng" Binding="{Binding Ngày ký hợp đồng}" Width="150" />
-                <DataGridTextColumn Header="Ngày hết hạn" Binding="{Binding Ngày hết hạn}" Width="150" />
-                <DataGridTextColumn Header="Số điện thoại" Binding="{Binding Số điện thoại}" Width="120" />
-                <DataGridTextColumn Header="Học vấn" Binding="{Binding Học vấn}" Width="150" />
-                <DataGridTextColumn Header="Ghi chú" Binding="{Binding Ghi chú}" Width="200" />
             </DataGrid.Columns>
         </DataGrid>
+        <Grid Grid.Row="1" Margin="0,260,0,0" Grid.RowSpan="2">
+            <UniformGrid Columns="6" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+                <Button Style="{StaticResource WindowButtonTheme}"
+                Height="40" MinWidth="130"
+                x:Name="themBtn"
+                Click="themBtn_Click"
+                Margin="5">Thêm nhân sự</Button>
 
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+                <Button x:Name="xoaBtn"
+                Style="{StaticResource WindowButtonTheme}"
+                Height="40" MinWidth="130"
+                Click="xoaBtn_Click"
+                Margin="5">Xóa nhân sự</Button>
 
-            <Button Style="{StaticResource WindowButtonTheme}"
-                    Width="NaN" Height="40"
-                    x:Name="themBtn"
-                    Click="themBtn_Click" Margin="0,5,40,5">Thêm nhân sự</Button>
-            <Button x:Name="xoaBtn" 
-                    Style="{StaticResource WindowButtonTheme}"
-                    Width="NaN" Height="40" Click="xoaBtn_Click" Grid.ColumnSpan="2" Margin="140,5,70,5">Xóa nhân sự</Button>
-            <Button Grid.Column="1"
-                    x:Name="SuaNhanSuBtn"
-                    Click="suaBtn_Click"
-                    Style="{StaticResource WindowButtonTheme}"
-                    Width="100" Height="40" Grid.ColumnSpan="2" Margin="113,5,107,5">Sửa nhân sự</Button>
-            <Button x:Name="xuatDSBtn" Grid.Column="3"
-                    Style="{StaticResource WindowButtonTheme}"
-                    Width="100" Height="40" Click="xuatDSBtn_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0">Xuất ra excel</Button>
-            <Button x:Name="lamMoiBtn" Grid.Column="2"
-                    Style="{StaticResource WindowButtonTheme}"
-                    Width="100" Height="40"
-                    Click="lamMoiBtn_Click" HorizontalAlignment="Left" Margin="80,0,0,0" VerticalAlignment="Center" Grid.ColumnSpan="2">Làm mới</Button>
-            <Button Style="{StaticResource WindowButtonTheme}"
-                Width="NaN" Height="40"
-                x:Name="themBtn_Copy"
-                Click="guiTBBtn_Click" Margin="16,5,16,5" Grid.Column="4">Gửi thông báo</Button>
+                <Button x:Name="SuaNhanSuBtn"
+                Style="{StaticResource WindowButtonTheme}"
+                Height="40" MinWidth="130"
+                Click="suaBtn_Click"
+                Margin="5">Sửa nhân sự</Button>
 
+                <Button x:Name="xuatDSBtn"
+                Style="{StaticResource WindowButtonTheme}"
+                Height="40" MinWidth="130"
+                Click="xuatDSBtn_Click"
+                Margin="5">Xuất ra Excel</Button>
+
+                <Button x:Name="lamMoiBtn"
+                Style="{StaticResource WindowButtonTheme}"
+                Height="40" MinWidth="130"
+                Click="lamMoiBtn_Click"
+                Margin="5">Làm mới</Button>
+
+                <Button x:Name="themBtn_Copy"
+                Style="{StaticResource WindowButtonTheme}"
+                Height="40" MinWidth="130"
+                Click="guiTBBtn_Click"
+                Margin="5">Gửi thông báo</Button>
+            </UniformGrid>
         </Grid>
-
-
     </Grid>
 </UserControl>

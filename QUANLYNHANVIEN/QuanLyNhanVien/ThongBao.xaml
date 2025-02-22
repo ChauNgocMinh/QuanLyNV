@@ -4,13 +4,13 @@
         Title="Danh sách Thông báo" Height="450" Width="800">
     <Grid>
         <DataGrid x:Name="dgThongBao" AutoGenerateColumns="False" 
-                  ItemsSource="{Binding ThongBaoList}" 
-                  Margin="10" IsReadOnly="True">
+          Margin="10" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Mã thông báo" Binding="{Binding MaTB}" Width="100"/>
-                <DataGridTextColumn Header="Nội dung" Binding="{Binding NoiDung}" Width="300"/>
-                <DataGridTextColumn Header="Loại" Binding="{Binding Type}" Width="100"/>
-                <DataGridTextColumn Header="Ngày gửi" Binding="{Binding CreateDate}" Width="150"/>
+                <DataGridTextColumn Header="Mã thông báo" Binding="{Binding [Mã thông báo]}" Width="100"/>
+                <DataGridTextColumn Header="Tiêu đề" Binding="{Binding [Tiêu đề]}" Width="200"/>
+                <DataGridTextColumn Header="Nội dung" Binding="{Binding [Nội dung]}" Width="300"/>
+                <DataGridTextColumn Header="Loại" Binding="{Binding [Loại]}" Width="100"/>
+                <DataGridTextColumn Header="Ngày gửi" Binding="{Binding [Ngày gửi]}" Width="150"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
