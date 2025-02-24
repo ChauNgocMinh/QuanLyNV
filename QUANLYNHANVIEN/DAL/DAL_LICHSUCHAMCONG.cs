@@ -52,7 +52,7 @@ CREATE TABLE LICHSUCHAMCONG
             if (connection.State != ConnectionState.Open)
                 connection.Open();
             string sql = string.Format("UPDATE LICHSUCHAMCONG " +
-                "SET NGAYCHAMCONGGANNHAT ='{0}',GHICHU = '{1}'" + "WHERE MANV = '{2}'",
+                "SET NGAYCHAMCONGGANNHAT ='{0}',GHICHU = N'{1}'" + "WHERE MANV = '{2}'",
             lichSuChamCong.Ngaychamconggannhat, lichSuChamCong.Ghichu,lichSuChamCong.Manv);
             SqlCommand cmd = new SqlCommand(sql, connection);
             if (cmd.ExecuteNonQuery() > 0)
@@ -115,18 +115,45 @@ CREATE TABLE LICHSUCHAMCONG
 
         public DateTime TimLanCuoiChamCongTheoMa(string maNV)
         {
-            DateTime lanChamCongGanNhat = new DateTime();
+            DateTime lanChamCongGanNhat = DateTime.MinValue; 
             CheckConnection();
-            string sql = string.Format("SELECT NGAYCHAMCONGGANNHAT FROM LICHSUCHAMCONG WHERE MANV = '{0}'", maNV);
+            string sql = $"SELECT NGAYCHAMCONGGANNHAT FROM LICHSUCHAMCONG WHERE MANV = '{maNV}'";
 
-            SqlCommand cmd = new SqlCommand(sql, connection);
-            SqlDataReader sdr = cmd.ExecuteReader();
-            while (sdr.Read())
+            using (SqlCommand cmd = new SqlCommand(sql, connection))
+            using (SqlDataReader sdr = cmd.ExecuteReader())
             {
-                lanChamCongGanNhat = DateTime.Parse(sdr["NGAYCHAMCONGGANNHAT"].ToString());
+                while (sdr.Read())
+                {
+                    DateTime ngayChamCong = DateTime.Parse(sdr["NGAYCHAMCONGGANNHAT"].ToString());
+                    if (ngayChamCong.Date == DateTime.Now.Date)
+                    {
+                        lanChamCongGanNhat = ngayChamCong;
+                    }
+                }
             }
             connection.Close();
             return lanChamCongGanNhat;
         }
+
+
+        public bool CheckChamCong(string maNV)
+        {
+            CheckConnection();
+            string sql = $@"
+                SELECT 1 
+                FROM LICHSUCHAMCONG 
+                WHERE MANV = '{maNV}' 
+                AND (GHICHU = N'Đã chốt' OR NGAYCHAMCONGGANNHAT > DATEADD(HOUR, -1, GETDATE()))";
+
+            using (SqlCommand cmd = new SqlCommand(sql, connection))
+            using (SqlDataReader sdr = cmd.ExecuteReader())
+            {
+                bool hasData = sdr.Read();
+                connection.Close();
+                return hasData;
+            }
+        }
+
+
     }
 }

@@ -27,6 +27,18 @@ namespace DAL
             return dtNHANVIEN;
         }
 
+        public DataTable getNhanVienByFilter(string urlImage)
+        {
+            SqlDataAdapter da = new SqlDataAdapter($"SELECT * FROM NHANVIEN where ANHDAIDIEN = '{urlImage}'", connection);
+            DataTable dtNHANVIEN = new DataTable();
+            da.Fill(dtNHANVIEN);
+            if (dtNHANVIEN.Rows.Count > 0)
+            {
+                return dtNHANVIEN;
+            }
+            return null;
+        }
+
 
         public DataTable xuatNhanVien()
         {
@@ -78,13 +90,13 @@ namespace DAL
                         string sqlTaiKhoan = @"
                             INSERT INTO TAIKHOAN (MALOAITK, TENCHUTAIKHOAN, TENDANGNHAP, MATKHAU) 
                             VALUES (@Maloaitk, @TenChuTaiKhoan, @TenDangNhap, @MatKhau)";
-
+                        string hashedPassword = HashPassword("123456");
                         using (SqlCommand cmdTaiKhoan = new SqlCommand(sqlTaiKhoan, connection, transaction))
                         {
                             cmdTaiKhoan.Parameters.AddWithValue("@Maloaitk", 3); 
                             cmdTaiKhoan.Parameters.AddWithValue("@TenChuTaiKhoan", nhanVien.Hoten);
                             cmdTaiKhoan.Parameters.AddWithValue("@TenDangNhap", newMaNV.ToString()); 
-                            cmdTaiKhoan.Parameters.AddWithValue("@MatKhau", "123456");
+                            cmdTaiKhoan.Parameters.AddWithValue("@MatKhau", hashedPassword);
 
                             cmdTaiKhoan.ExecuteNonQuery();
                         }
@@ -103,7 +115,19 @@ namespace DAL
                 }
             }
         }
-
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                StringBuilder builder = new StringBuilder();
+                foreach (byte b in bytes)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
         /*
     MANV INT IDENTITY(1,1) PRIMARY KEY,
 	MAPHONG VARCHAR(6),
@@ -130,11 +154,11 @@ namespace DAL
                 connection.Open();
             string sql = string.Format("UPDATE NHANVIEN " +
                 "SET MAPHONG='{0}', MALUONG='{1}',HOTEN=N'{2}',NGAYSINH='{3}',GIOITINH=N'{4}',DANTOC=N'{5}',CMND_CCCD='{6}', " +
-                "NOICAP=N'{7}',CHUCVU=N'{8}',MALOAINV='{9}',LOAIHD=N'{10}',THOIGIAN='{11}',NGAYKY='{12}',NGAYHETHAN='{13}', " +
-                "SDT='{14}',HOCVAN=N'{15}',GHICHU=N'{16}',ANHDAIDIEN=N'{17}'" + "WHERE MANV = '{18}'",
+                "NOICAP=N'{7}',CHUCVU=N'{8}',MALOAINV='{9}',LOAIHD=N'{10}',THOIGIAN='{11}',NGAYHETHAN='{12}', " +
+                "SDT='{13}',HOCVAN=N'{14}',GHICHU=N'{15}',ANHDAIDIEN=N'{16}'" + "WHERE MANV = '{17}'",
                 nhanVien.Maphong, nhanVien.Maluong, nhanVien.Hoten, nhanVien.Ngaysinh,
                 nhanVien.Gioitinh, nhanVien.Dantoc, nhanVien.Cmnd_cccd, nhanVien.Noicap, nhanVien.Chucvu, nhanVien.Maloainv,
-                nhanVien.Loaihd, nhanVien.Thoigian, nhanVien.Ngaydangki, nhanVien.Ngayhethan, nhanVien.Sdt, nhanVien.Hocvan, nhanVien.Ghichu, nhanVien.AnhDaiDien, nhanVien.Manv);
+                nhanVien.Loaihd, nhanVien.Thoigian, nhanVien.Ngayhethan, nhanVien.Sdt, nhanVien.Hocvan, nhanVien.Ghichu, nhanVien.AnhDaiDien, nhanVien.Manv);
             SqlCommand cmd = new SqlCommand(sql, connection);
             if (cmd.ExecuteNonQuery() > 0)
                 return true;
@@ -344,7 +368,6 @@ namespace DAL
                 dtoNhanVien.Maloainv = reader[10].ToString();
                 dtoNhanVien.Loaihd = reader[11].ToString();
                 dtoNhanVien.Thoigian = int.Parse(reader[12].ToString());
-                dtoNhanVien.Ngaydangki = DateTime.Parse(reader[13].ToString());
                 dtoNhanVien.Ngayhethan = DateTime.Parse(reader[14].ToString());
                 dtoNhanVien.Sdt = reader[15].ToString();
                 dtoNhanVien.Hocvan = reader[16].ToString();

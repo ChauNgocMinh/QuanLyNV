@@ -36,6 +36,7 @@
                 <TextBlock 
                     Text="QLNV"
                     FontSize="30"
+                    Foreground="#0d4672" 
                     FontWeight="Bold"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"/>
@@ -139,12 +140,6 @@
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding QLHeThongViewCommand}">
                             <TextBlock Margin="20,0,0,0">Hệ thống</TextBlock>
-                        </RadioButton>
-                        <RadioButton x:Name="heThongRbn_Copy" Height="40"
-                            FontSize="17"
-                            Style="{StaticResource MenuButtonTheme}"
-                            Command="{Binding QLThongBaoViewCommand}">
-                            <TextBlock Margin="20,0,0,0">Thông báo</TextBlock>
                         </RadioButton>
                         <RadioButton x:Name="thongTinCaNhanRbn" Height="40"
                              FontSize="17"

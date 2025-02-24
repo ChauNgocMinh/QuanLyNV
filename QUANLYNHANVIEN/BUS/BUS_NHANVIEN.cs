@@ -15,6 +15,10 @@ namespace BUS
             return nhanvien.getNhanVien();
         }
 
+        public DataTable getNhanVienByFilter(string url)
+        {
+            return nhanvien.getNhanVienByFilter(url);
+        }
         public DataTable xuatNhanVien()
         {
             return nhanvien.xuatNhanVien();

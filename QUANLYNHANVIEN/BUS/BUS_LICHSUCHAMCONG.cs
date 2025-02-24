@@ -42,5 +42,9 @@ namespace BUS
         {
             return lichsuchamcong.TimLanCuoiChamCongTheoMa(maNV);
         }
+        public bool CheckChamCong(string maNV)
+        {
+            return lichsuchamcong.CheckChamCong(maNV);
+        }
     }
 }

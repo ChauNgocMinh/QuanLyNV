@@ -124,8 +124,8 @@ namespace QuanLyNhanVien.WindowView
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
             string fileName = $"IMG_{DateTime.Now:yyyyMMdd_HHmmss}.jpg";
-            tempImagePath = Path.Combine(folderPath, fileName);
-
+            //tempImagePath = Path.Combine(folderPath, fileName);
+            tempImagePath = fileName;
             currentFrame.Save(tempImagePath, System.Drawing.Imaging.ImageFormat.Jpeg);
 
             new MessageBoxCustom("Ảnh đã lưu tại: " + tempImagePath, MessageType.Info, MessageButtons.Ok).ShowDialog();
@@ -292,7 +292,7 @@ namespace QuanLyNhanVien.WindowView
             if (phongCbx.Text == String.Empty || tenTbx.Text == String.Empty || ngaySinhDpk.Text == String.Empty
                 || gioiTinhCbx.Text == String.Empty || cccdTbx.Text == String.Empty
                 || maLuongCbx.Text == String.Empty || loaiNVCbx.Text == String.Empty || chucVuTbx.Text == String.Empty
-                || loaiHopDongCbx.Text == String.Empty || thoiGianTbx.Text == String.Empty || ngayKyDpk.Text == String.Empty
+                || loaiHopDongCbx.Text == String.Empty || tempImagePath == String.Empty || ngayKyDpk.Text == String.Empty
                 || ngayHetHanDpk.Text == String.Empty || soDienThoaiTbx.Text == String.Empty || hocVanTbx.Text == String.Empty 
                 || danTocCbx.Text == String.Empty )
             {

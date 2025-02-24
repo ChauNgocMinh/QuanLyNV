@@ -187,11 +187,11 @@ namespace QuanLyNhanVien.MVVM.View.ChamCongSubView
                 dtoBangChamCong.Thang = thoiGianDpk.SelectedDate.Value.Month;
                 dtoBangChamCong.Nam = thoiGianDpk.SelectedDate.Value.Year;
                 dtoBangChamCong.Maluong = maLuongTbx.Text;
-                dtoBangChamCong.Tienkhenthuong = double.Parse(khenThuongTbx.Text);
-                dtoBangChamCong.Tienkyluat = double.Parse(kyLuatTbx.Text);
-                dtoBangChamCong.Songaycong = int.Parse(soNgayCongTbx.Text);
-                dtoBangChamCong.Songaynghi = int.Parse(soNgayNghiTbx.Text);
-                dtoBangChamCong.Sogiolamthem = int.Parse(soGioLamThemTbx.Text);
+                dtoBangChamCong.Tienkhenthuong = double.Parse(khenThuongTbx.Text != "" ? "0" : khenThuongTbx.Text);
+                dtoBangChamCong.Tienkyluat = double.Parse(kyLuatTbx.Text != "" ? "0" : kyLuatTbx.Text);
+                dtoBangChamCong.Songaycong = int.Parse(soNgayCongTbx.Text != "" ? "0" : soNgayCongTbx.Text);
+                dtoBangChamCong.Songaynghi = int.Parse(soNgayNghiTbx.Text != "" ? "0" : soNgayNghiTbx.Text);
+                dtoBangChamCong.Sogiolamthem = int.Parse(soGioLamThemTbx.Text != "" ? "0" : soGioLamThemTbx.Text);
 
                 busBangChamCong.ThemBangChamCong(dtoBangChamCong);
 

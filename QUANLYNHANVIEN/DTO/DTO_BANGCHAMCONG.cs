@@ -14,9 +14,9 @@ namespace DTO
         private string maluong;
         private double tienkyluat;
         private double tienkhenthuong;
-        private int songaycong;
+        private double songaycong;
         private int songaynghi;
-        private int sogiolamthem;
+        private double sogiolamthem;
         private string ghichu;
 
         public DTO_BANGCHAMCONG()
@@ -41,10 +41,10 @@ namespace DTO
         public int Thang { get => thang; set => thang = value; }
         public int Nam { get => nam; set => nam = value; }
         public string Maluong { get => maluong; set => maluong = value; }
-        public int Songaycong { get => songaycong; set => songaycong = value; }
+        public double Songaycong { get => songaycong; set => songaycong = value; }
         public int Songaynghi { get => songaynghi; set => songaynghi = value; }
         public string Ghichu { get => ghichu; set => ghichu = value; }
-        public int Sogiolamthem { get => sogiolamthem; set => sogiolamthem = value; }
+        public double Sogiolamthem { get => sogiolamthem; set => sogiolamthem = value; }
         public double Tienkyluat { get => tienkyluat; set => tienkyluat = value; }
         public double Tienkhenthuong { get => tienkhenthuong; set => tienkhenthuong = value; }
     }

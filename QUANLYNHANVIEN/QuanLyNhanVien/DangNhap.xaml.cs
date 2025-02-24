@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenCvSharp.Face;
+using System.Data;
 
 namespace QuanLyNhanVien
 {
@@ -26,11 +27,15 @@ namespace QuanLyNhanVien
     {
         private BUS_TAIKHOAN tk = new BUS_TAIKHOAN();
         private BUS_NHANVIENHIENTAI busNhanVienHienTai = new BUS_NHANVIENHIENTAI();
+        public BUS_NHANVIEN busNhanVien = new BUS_NHANVIEN();
         private VideoCapture capture;
         private CascadeClassifier faceCascade;
         private bool isCameraRunning = false;
         private CancellationTokenSource cts;
-
+        BUS_LICHSUCHAMCONG busLichSuChamCong = new BUS_LICHSUCHAMCONG();
+        BUS_LICHSUVANGMAT busLichSuVangMat = new BUS_LICHSUVANGMAT();
+        BUS_BANGCHAMCONG busBangChamCong = new BUS_BANGCHAMCONG();
+        BUS_BANGTINHLUONG busBangTinhLuong = new BUS_BANGTINHLUONG();
         private readonly string folderPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "CapturedImages");
         public DangNhap()
         {
@@ -102,8 +107,6 @@ namespace QuanLyNhanVien
         }
 
         private List<(string fileName, Mat faceMat)> savedFaces = new List<(string, Mat)>();
-
-        // Load ảnh đã lưu vào bộ nhớ khi khởi động
         private void LoadSavedFaces()
         {
             string[] imageFiles = Directory.GetFiles(folderPath, "*.jpg");
@@ -119,36 +122,133 @@ namespace QuanLyNhanVien
             foreach (var rect in faces)
             {
                 Cv2.Rectangle(frame, rect, Scalar.Red, 2);
-
-                // Cắt ảnh khuôn mặt ra từ frame
                 var faceMat = new Mat(frame, rect);
-
-                // Kiểm tra khuôn mặt với ảnh đã lưu
                 string matchedFile = GetMatchingFaceFile(faceMat);
                 if (!string.IsNullOrEmpty(matchedFile))
                 {
                     Dispatcher.Invoke(() =>
                     {
-                        new MessageBoxCustom($"Khuôn mặt trùng khớp với ảnh: {matchedFile}", MessageType.Success, MessageButtons.Ok).ShowDialog();
+                        DataTable dtNhanVien = busNhanVien.getNhanVienByFilter(matchedFile);
+
+                        string maNV = dtNhanVien.Rows[0]["MANV"].ToString(); 
+                        if (maNV == null)
+                        {
+                            FaceMatchNotification.Text = "Nhân viên không tồn tại";
+                            FaceMatchNotification.Visibility = Visibility.Visible;
+                            return;
+                        }
+
+                        if(busLichSuChamCong.CheckChamCong(maNV) == true)
+                        {
+                            FaceMatchNotification.Text = $"Nhân viên đã chấm công trong hôm nay";
+                            FaceMatchNotification.Visibility = Visibility.Visible;
+                            return;
+                        }
+                        DTO_LICHSUCHAMCONG dtoLichSuChamCong = new DTO_LICHSUCHAMCONG();
+                        double SoGioLam = 0;
+                        double SoGioLamThem = 0;
+
+                        DateTime thoiGianHienTai = DateTime.Now;
+                        DateTime gioBatDau = thoiGianHienTai.Date.AddHours(8); 
+                        DateTime gioKetThuc = thoiGianHienTai.Date.AddHours(17);
+                        DateTime? gioCheckInCuoi = busLichSuChamCong.TimLanCuoiChamCongTheoMa(maNV);
+
+                        if (gioCheckInCuoi == null || gioCheckInCuoi.Value.Date != thoiGianHienTai.Date)
+                        {
+                            dtoLichSuChamCong.Manv = int.Parse(maNV);
+                            dtoLichSuChamCong.Ngaychamconggannhat = thoiGianHienTai;
+
+                            busLichSuChamCong.ThemLichSuChamCong(dtoLichSuChamCong);
+                            FaceMatchNotification.Text = $"Nhân viên {dtNhanVien.Rows[0]["HOTEN"].ToString()} check-in lúc {thoiGianHienTai:HH:mm}";
+                            FaceMatchNotification.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            TimeSpan thoiGianLam = thoiGianHienTai - gioCheckInCuoi.Value;
+
+                            if (gioCheckInCuoi < gioBatDau)
+                            {
+                                SoGioLam = (thoiGianHienTai - gioBatDau).TotalHours;
+                            }
+                            else if (gioCheckInCuoi < gioKetThuc)
+                            {
+                                if (thoiGianHienTai <= gioKetThuc)
+                                {
+                                    SoGioLam = thoiGianLam.TotalHours;
+                                }
+                                else
+                                {
+                                    SoGioLam = (gioKetThuc - gioCheckInCuoi.Value).TotalHours;
+                                    SoGioLamThem = (thoiGianHienTai - gioKetThuc).TotalHours;
+                                }
+                            }
+                            else
+                            {
+                                SoGioLamThem = thoiGianLam.TotalHours;
+                            }
+
+                            SoGioLam = Math.Round(SoGioLam, 2);
+                            SoGioLamThem = Math.Round(SoGioLamThem, 2);
+                            dtoLichSuChamCong.Manv = int.Parse(maNV);
+                            dtoLichSuChamCong.Ngaychamconggannhat = thoiGianHienTai;
+                            dtoLichSuChamCong.Ghichu = "Đã chốt";
+                            busLichSuChamCong.SuaLichSuChamCong(dtoLichSuChamCong);
+
+                            FaceMatchNotification.Text = $"Nhân viên {dtNhanVien.Rows[0]["HOTEN"].ToString()} check-in lúc {thoiGianHienTai:HH:mm}, Giờ làm: {SoGioLam}, OT: {SoGioLamThem}";
+                            FaceMatchNotification.Visibility = Visibility.Visible;
+
+                            if (busBangChamCong.KiemTraTonTai(maNV, DateTime.Now.Month.ToString(), DateTime.Now.Year.ToString()))
+                            {
+                                DTO_BANGCHAMCONG dtoBangChamCong = new DTO_BANGCHAMCONG();
+                                dtoBangChamCong.Manv = int.Parse(maNV);
+                                dtoBangChamCong.Thang = DateTime.Now.Month;
+                                dtoBangChamCong.Nam = DateTime.Now.Year;
+                                dtoBangChamCong.Maluong = dtNhanVien.Rows[0]["MALUONG"].ToString();
+                                dtoBangChamCong.Tienkhenthuong = 0;
+                                dtoBangChamCong.Tienkyluat = 0;
+                                double ngayCong = SoGioLam / 8.0;
+                                ngayCong = Math.Round(ngayCong, 2); 
+                                dtoBangChamCong.Songaycong += ngayCong; dtoBangChamCong.Songaynghi = 0;
+                                dtoBangChamCong.Sogiolamthem = SoGioLamThem;
+
+                                busBangChamCong.SuaBangChamCong(dtoBangChamCong);
+                            }
+                            else
+                            {
+                                DTO_BANGCHAMCONG dtoBangChamCong = new DTO_BANGCHAMCONG();
+                                dtoBangChamCong.Manv = int.Parse(maNV);
+                                dtoBangChamCong.Thang = DateTime.Now.Month;
+                                dtoBangChamCong.Nam = DateTime.Now.Year;
+                                dtoBangChamCong.Maluong = dtNhanVien.Rows[0]["MALUONG"].ToString();
+                                dtoBangChamCong.Tienkhenthuong = 0;
+                                dtoBangChamCong.Tienkyluat = 0;
+                                double ngayCong = SoGioLam / 8.0;
+                                ngayCong = Math.Round(ngayCong, 2); 
+                                dtoBangChamCong.Songaycong += ngayCong; 
+                                dtoBangChamCong.Songaynghi = 0;
+                                dtoBangChamCong.Sogiolamthem = SoGioLamThem;
+
+                                busBangChamCong.ThemBangChamCong(dtoBangChamCong);
+                            }
+                        }
+
                     });
                 }
             }
         }
 
-        // Kiểm tra khuôn mặt trùng với file nào
         private string GetMatchingFaceFile(Mat faceMat)
         {
             foreach (var (fileName, savedFace) in savedFaces)
             {
                 if (CompareFaces(faceMat, savedFace))
                 {
-                    return fileName; // Trả về tên file nếu khớp
+                    return fileName;
                 }
             }
             return string.Empty;
         }
 
-        // So sánh hai khuôn mặt dùng ORB + BFMatcher
         private bool CompareFaces(Mat img1, Mat img2)
         {
             if (img1.Empty() || img2.Empty())
@@ -169,11 +269,12 @@ namespace QuanLyNhanVien
             var bf = new BFMatcher(NormTypes.Hamming, crossCheck: true);
             var matches = bf.Match(descriptors1, descriptors2);
 
-            if (matches.Length < 35) // Số điểm match tối thiểu để tránh nhận diện sai
+            if (matches.Length < 50)
                 return false;
-
             double matchScore = matches.Average(m => m.Distance);
-            return matchScore < 39; // Điều chỉnh ngưỡng tùy theo độ chính xác mong muốn
+            const double maxScore = 53; 
+            Console.WriteLine($"Matches: {matches.Length}, Score: {matchScore}");
+            return matchScore < maxScore;
         }
 
 
@@ -238,7 +339,6 @@ namespace QuanLyNhanVien
                 {
                     
                     TrangChu trangChu = new TrangChu(dTO_TaiKhoan);
-                    //bool? result = new MessageBoxCustom("Đăng nhập thành công!", MessageType.Success, MessageButtons.Ok).ShowDialog();
                     trangChu.Show();
                     this.Hide();
 
