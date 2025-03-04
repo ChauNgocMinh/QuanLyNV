@@ -198,6 +198,7 @@ namespace QuanLyNhanVien.MVVM.View.SubView
 
             DataGridLoad();
             bool? Result = new MessageBoxCustom("Xóa nhân viên thành công!", MessageType.Success, MessageButtons.Ok).ShowDialog();
+            Ids.Remove(dtoNhanVien.Manv);
             ClearBoxes();
         }
 

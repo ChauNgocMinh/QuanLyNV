@@ -59,7 +59,7 @@ namespace DAL
                 {
                     string sqlNhanVien = @"
                         INSERT INTO NHANVIEN (MAPHONG, MALUONG, HOTEN, NGAYSINH, GIOITINH, DANTOC, CMND_CCCD, NOICAP, CHUCVU, MALOAINV, 
-                                              LOAIHD, THOIGIAN, NGAYDANGKI, NGAYHETHAN, SDT, HOCVAN, GHICHU, ANHDAIDIEN)
+                                              LOAIHD, THOIGIAN, NGAYKY, NGAYHETHAN, SDT, HOCVAN, GHICHU, ANHDAIDIEN)
                         OUTPUT INSERTED.MANV
                         VALUES (@Maphong, @Maluong, @Hoten, @Ngaysinh, @Gioitinh, @Dantoc, @Cmnd, @Noicap, @Chucvu, @Maloainv, 
                                 @Loaihd, @Thoigian, @Ngaydangki, @Ngayhethan, @Sdt, @Hocvan, @Ghichu, @AnhDaiDien)";

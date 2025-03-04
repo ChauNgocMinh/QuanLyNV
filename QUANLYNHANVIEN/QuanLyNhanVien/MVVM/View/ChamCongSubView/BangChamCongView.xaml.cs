@@ -134,6 +134,7 @@ namespace QuanLyNhanVien.MVVM.View.ChamCongSubView
             }
 
             maNVTbx.Text = row[0].ToString();
+            soNgayCongTbx.Text = row[9].ToString();
             string selectedMonth = row[2].ToString() + "/" + row[3].ToString();
             if (DateTime.TryParseExact(selectedMonth, "M/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate))
             {
@@ -161,11 +162,11 @@ namespace QuanLyNhanVien.MVVM.View.ChamCongSubView
                 dtoBangChamCong.Thang = thoiGianDpk.SelectedDate.Value.Month;
                 dtoBangChamCong.Nam = thoiGianDpk.SelectedDate.Value.Year;
                 dtoBangChamCong.Maluong = maLuongTbx.Text;
-                dtoBangChamCong.Tienkhenthuong = double.Parse(khenThuongTbx.Text);
-                dtoBangChamCong.Tienkyluat = double.Parse(kyLuatTbx.Text);
-                dtoBangChamCong.Songaycong = int.Parse(soNgayCongTbx.Text);
-                dtoBangChamCong.Songaynghi = int.Parse(soNgayNghiTbx.Text);
-                dtoBangChamCong.Sogiolamthem = int.Parse(soGioLamThemTbx.Text);
+                dtoBangChamCong.Tienkhenthuong = double.Parse(khenThuongTbx.Text == "" ? "0" : khenThuongTbx.Text);
+                dtoBangChamCong.Tienkyluat = double.Parse(kyLuatTbx.Text == "" ? "0" : kyLuatTbx.Text);
+                dtoBangChamCong.Songaycong = int.Parse(soNgayCongTbx.Text == "" ? "0" : soNgayCongTbx.Text);
+                dtoBangChamCong.Songaynghi = int.Parse(soNgayNghiTbx.Text == "" ? "0" : soNgayNghiTbx.Text);
+                dtoBangChamCong.Sogiolamthem = int.Parse(soGioLamThemTbx.Text == "" ? "0" : soGioLamThemTbx.Text);
 
                 busBangChamCong.SuaBangChamCong(dtoBangChamCong);
 
@@ -173,7 +174,7 @@ namespace QuanLyNhanVien.MVVM.View.ChamCongSubView
                 dtoBangTinhLuong.Manv = int.Parse(maNVTbx.Text);
                 dtoBangTinhLuong.Thang = thoiGianDpk.SelectedDate.Value.Month;
                 dtoBangTinhLuong.Nam = thoiGianDpk.SelectedDate.Value.Year;
-                dtoBangTinhLuong.Luong = double.Parse(tongTienTbk.Text);
+                dtoBangTinhLuong.Luong = double.Parse(tongTienTbk.Text == "" ? "0" : tongTienTbk.Text);
 
                 busBangTinhLuong.SuaBangTinhLuong(dtoBangTinhLuong);
 
@@ -187,11 +188,11 @@ namespace QuanLyNhanVien.MVVM.View.ChamCongSubView
                 dtoBangChamCong.Thang = thoiGianDpk.SelectedDate.Value.Month;
                 dtoBangChamCong.Nam = thoiGianDpk.SelectedDate.Value.Year;
                 dtoBangChamCong.Maluong = maLuongTbx.Text;
-                dtoBangChamCong.Tienkhenthuong = double.Parse(khenThuongTbx.Text != "" ? "0" : khenThuongTbx.Text);
-                dtoBangChamCong.Tienkyluat = double.Parse(kyLuatTbx.Text != "" ? "0" : kyLuatTbx.Text);
-                dtoBangChamCong.Songaycong = int.Parse(soNgayCongTbx.Text != "" ? "0" : soNgayCongTbx.Text);
-                dtoBangChamCong.Songaynghi = int.Parse(soNgayNghiTbx.Text != "" ? "0" : soNgayNghiTbx.Text);
-                dtoBangChamCong.Sogiolamthem = int.Parse(soGioLamThemTbx.Text != "" ? "0" : soGioLamThemTbx.Text);
+                dtoBangChamCong.Tienkhenthuong = double.Parse(khenThuongTbx.Text == "" ? "0" : khenThuongTbx.Text);
+                dtoBangChamCong.Tienkyluat = double.Parse(kyLuatTbx.Text == "" ? "0" : kyLuatTbx.Text);
+                dtoBangChamCong.Songaycong = int.Parse(soNgayCongTbx.Text == "" ? "0" : soNgayCongTbx.Text);
+                dtoBangChamCong.Songaynghi = int.Parse(soNgayNghiTbx.Text == "" ? "0" : soNgayNghiTbx.Text);
+                dtoBangChamCong.Sogiolamthem = int.Parse(soGioLamThemTbx.Text == "" ? "0" : soGioLamThemTbx.Text);
 
                 busBangChamCong.ThemBangChamCong(dtoBangChamCong);
 
@@ -199,7 +200,7 @@ namespace QuanLyNhanVien.MVVM.View.ChamCongSubView
                 dtoBangTinhLuong.Manv = int.Parse(maNVTbx.Text);
                 dtoBangTinhLuong.Thang = thoiGianDpk.SelectedDate.Value.Month;
                 dtoBangTinhLuong.Nam = thoiGianDpk.SelectedDate.Value.Year;
-                dtoBangTinhLuong.Luong = double.Parse(tongTienTbk.Text);
+                dtoBangTinhLuong.Luong = double.Parse(tongTienTbk.Text == "" ? "0" : tongTienTbk.Text);
 
                 busBangTinhLuong.ThemBangTinhLuong(dtoBangTinhLuong);
 
@@ -350,16 +351,16 @@ namespace QuanLyNhanVien.MVVM.View.ChamCongSubView
                     SetDefaultValue(kyLuatTbx);
                     SetDefaultValue(soNgayNghiTbx);
 
-                    if (soNgayCongTbx.Text == "0")
-                    {
-                        tongTienTbk.Text = (double.Parse(phuCapTbx.Text) + double.Parse(phuCapKhacTbx.Text) + double.Parse(luongCBTbx.Text) + double.Parse(khenThuongTbx.Text) - double.Parse(kyLuatTbx.Text)).ToString();
-                        return;
-                    }
+                    //if (soNgayCongTbx.Text == "0")
+                    //{
+                    //    tongTienTbk.Text = (double.Parse(phuCapTbx.Text) + double.Parse(phuCapKhacTbx.Text) + double.Parse(luongCBTbx.Text) + double.Parse(khenThuongTbx.Text) - double.Parse(kyLuatTbx.Text)).ToString();
+                    //    return;
+                    //}
 
                     double soNgayNghiKoLuong = busThamSo.Get_soNgayLamToiDa() - double.Parse(soNgayCongTbx.Text);
-                    double tienPhat = ((busThamSo.Get_tiLePhat() * double.Parse(luongCBTbx.Text)) * soNgayNghiKoLuong) + double.Parse(kyLuatTbx.Text);
+                    double tienPhat = double.Parse(kyLuatTbx.Text);
 
-                    double luongTheoSoNgayCong = ((double.Parse(luongCBTbx.Text) / busThamSo.Get_soNgayLamToiDa()) * int.Parse(soNgayCongTbx.Text));
+                    double luongTheoSoNgayCong = double.Parse(soNgayCongTbx.Text);
                     double luongLamThem = (int.Parse(soGioLamThemTbx.Text) * busThamSo.Get_tienLamthem());
                     double luongPhuCap = double.Parse(phuCapTbx.Text) + double.Parse(phuCapKhacTbx.Text);
                     double tienThuong = luongTheoSoNgayCong + luongPhuCap + luongLamThem + double.Parse(khenThuongTbx.Text);
@@ -408,14 +409,14 @@ namespace QuanLyNhanVien.MVVM.View.ChamCongSubView
             int nam = thoiGianDpk.SelectedDate.Value.Year;
             //DTO_BANGCHAMCONG dtoBangChamCong = busBangChamCong.getBangChamCongTheoNhanVien(maNVTbx.Text, thang, nam);
             soNgayNghiTbx.Text = busLichSuVangMat.DemSoNgayNghiTrongThang(int.Parse(maNVTbx.Text), thang, nam).ToString();
-            if (double.Parse(soNgayNghiTbx.Text) <= busThamSo.Get_soNgayNghiToiDa())
-            {
-                soNgayCongTbx.Text = busThamSo.Get_soNgayLamToiDa().ToString();
-            }
-            else
-            {
-                soNgayCongTbx.Text = (busThamSo.Get_soNgayLamToiDa() - double.Parse(soNgayNghiTbx.Text) + busThamSo.Get_soNgayNghiToiDa()).ToString();
-            }
+            //if (double.Parse(soNgayNghiTbx.Text) <= busThamSo.Get_soNgayNghiToiDa())
+            //{
+            //    soNgayCongTbx.Text = busThamSo.Get_soNgayLamToiDa().ToString();
+            //}
+            //else
+            //{
+            //    soNgayCongTbx.Text = (busThamSo.Get_soNgayLamToiDa() - double.Parse(soNgayNghiTbx.Text) + busThamSo.Get_soNgayNghiToiDa()).ToString();
+            //}
 
             //soGioLamThemTbx.Text = dtoBangChamCong.Sogiolamthem.ToString();
         }

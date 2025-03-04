@@ -152,7 +152,7 @@ namespace QuanLyNhanVien.WindowView
             dtoNhanVien.Maloainv = busLoaiNV.TimKiemTheoLoaiNhanVien(loaiNVCbx.Text);
             dtoNhanVien.Chucvu = chucVuTbx.Text;
             dtoNhanVien.Loaihd = loaiHopDongCbx.Text;
-            dtoNhanVien.Thoigian = int.Parse(thoiGianTbx.Text);
+            dtoNhanVien.Thoigian = string.IsNullOrWhiteSpace(thoiGianTbx.Text) ? 0 : int.Parse(thoiGianTbx.Text);
             dtoNhanVien.Ngaydangki = DateTime.Parse(ngayKyDpk.Text);
             dtoNhanVien.Ngayhethan = DateTime.Parse(ngayHetHanDpk.Text);
             dtoNhanVien.Sdt = soDienThoaiTbx.Text;
